@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { type SanityDocument } from "next-sanity";
-
+import HeroSection from "@/components/HeroSection";
 import { client } from "@/sanity/client";
 
-const POSTS_QUERY = `*[
+/* const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
 ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
@@ -26,6 +26,15 @@ export default async function IndexPage() {
           </li>
         ))}
       </ul>
+    </main>
+  );
+} */
+
+export default function HomePage() {
+  return (
+    <main>
+      <HeroSection />
+      {/* other sections here */}
     </main>
   );
 }
