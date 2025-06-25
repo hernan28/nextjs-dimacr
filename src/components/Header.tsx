@@ -6,8 +6,8 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between relative">
         {/* Left nav */}
         <nav className="flex gap-8 text-gray-800 font-mono text-lg">
-          <Link href="/catalogo">Catálogo</Link>
-          <Link href="/ofertas">Ofertas</Link>
+          <Link href="/catalog">Catálogo</Link>
+          <Link href="/offers">Ofertas</Link>
           <div className="flex items-center gap-1 cursor-pointer">
             <span>Buscar</span>
             {/* Custom red magnifying glass */}
@@ -43,8 +43,8 @@ const Header = () => {
 
         {/* Right nav */}
         <nav className="flex gap-8 text-gray-800 font-mono text-lg">
-          <Link href="/conocenos">Conócenos</Link>
-          <Link href="/contacto">Contacto</Link>
+          <Link href="/about">Conócenos</Link>
+          <Link href="/contact">Contacto</Link>
         </nav>
       </div>
     </header>
