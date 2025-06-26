@@ -1,4 +1,5 @@
-import { PortableText, type SanityDocument } from "next-sanity";
+import { PortableText } from '@portabletext/react'
+import type { SanityDocument } from 'sanity'
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { client } from "@/sanity/client";
