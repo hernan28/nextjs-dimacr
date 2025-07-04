@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import MostSearched from '../components/mostSearched';
 
 const DimaLogo = () => (
   <svg width="84" height="32" viewBox="0 0 84 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,43 +42,7 @@ export default function Home() {
         </section>
 
         {/* Categories Section */}
-        <section className="py-16 px-8">
-          <div className="max-w-7xl mx-auto">
-            <p className="text-sm text-gray-500">A un click</p>
-            <h2 className="text-4xl font-bold mt-2">Más buscado por categoría</h2>
-            <p className="mt-4 text-gray-600">Ofrecemos gran variedad de equipos de fotografía en Costa Rica con envíos gratis en el GAM.</p>
-            <button className="mt-6 border border-red-500 text-red-500 font-bold py-2 px-5 rounded-full text-sm hover:bg-red-500 hover:text-white">
-              VER TODOS
-            </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-12">
-              {[
-                { name: 'Cámaras', img: 'https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?w=800' },
-                { name: 'Objetivos', img: 'https://images.unsplash.com/photo-1581338834647-b4fb31149793?w=800' },
-                { name: 'Trípodes y Soportes', img: 'https://images.unsplash.com/photo-1590622434394-a65759719a77?w=800' },
-                { name: 'Fotografía de película', img: 'https://images.unsplash.com/photo-1593018436353-6de5957a168a?w=800' },
-                { name: 'Iluminación', img: 'https://images.unsplash.com/photo-1598488096201-9759856996d9?w=800' },
-              ].map((category, i) => (
-                <div key={category.name} className={`relative rounded-xl overflow-hidden h-64 ${i >= 2 ? 'lg:col-span-1' : 'lg:col-span-1'}`}>
-                   {i === 0 && <div className="lg:col-span-2 h-full">
-                    <Image src={category.img} alt={category.name} layout="fill" objectFit="cover" className="transform hover:scale-105 transition-transform duration-300" />
-                    <div className="absolute inset-0 bg-black bg-opacity-40" />
-                    <h3 className="absolute bottom-4 left-4 text-white text-2xl font-bold">{category.name}</h3>
-                   </div>}
-                   {i === 1 && <div className="lg:col-span-2 h-full">
-                    <Image src={category.img} alt={category.name} layout="fill" objectFit="cover" className="transform hover:scale-105 transition-transform duration-300" />
-                    <div className="absolute inset-0 bg-black bg-opacity-40" />
-                    <h3 className="absolute bottom-4 left-4 text-white text-2xl font-bold">{category.name}</h3>
-                   </div>}
-                   {i > 1 && <div className="h-full">
-                    <Image src={category.img} alt={category.name} layout="fill" objectFit="cover" className="transform hover:scale-105 transition-transform duration-300" />
-                    <div className="absolute inset-0 bg-black bg-opacity-40" />
-                    <h3 className="absolute bottom-4 left-4 text-white text-2xl font-bold">{category.name}</h3>
-                   </div>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <MostSearched />
 
         {/* Products Section */}
         <section className="py-16 px-8 bg-white">
