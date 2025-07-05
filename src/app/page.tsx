@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import AboutUs from "@/components/AboutUs"
 
 const DimaLogo = () => (
   <svg width="84" height="32" viewBox="0 0 84 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,31 +143,7 @@ export default function Home() {
         </section>
 
         {/* About Us Section */}
-        <section className="py-16 px-8">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-sm text-gray-500">¿Quienes somos?</p>
-              <h2 className="text-4xl font-bold mt-2">Conocenos</h2>
-              <div className="mt-8">
-                 <Image 
-                    src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=800" 
-                    alt="Man in an apron"
-                    width={500}
-                    height={600}
-                    className="rounded-xl object-cover"
-                />
-              </div>
-            </div>
-            <div className="bg-[#C4B79A] p-12 rounded-xl text-gray-800">
-                <p className="text-sm">Trayectoria</p>
-                <h3 className="text-3xl font-bold mt-2">Contamos con más de 53 años de experiencia en el mercado</h3>
-                <p className="mt-4">Dima es una pequeña empresa fundada en 1972. Desde ese momento, la empresa se ha dedicado a la importación, distribución y venta de equipos y suministros para la fotografia.</p>
-                <button className="mt-8 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-sm">
-                  LEER MÁS
-                </button>
-            </div>
-          </div>
-        </section>
+        <AboutUs />
 
       </main>
 
