@@ -38,20 +38,20 @@ export default function MostSearched() {
                     </button>
                 </div>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {topCategories.map((cat) => (
+                    {topCategories.map((topCat) => (
                         <Link
-                            key={cat.slug}
-                            href={`/${cat.slug}`}
+                            key={topCat.slug}
+                            href={`/${topCat.slug}`}
                             className="group relative flex min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-xl bg-white shadow transition hover:shadow-lg"
                         >
                             <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gray-200 text-2xl text-gray-400">
-                                {cat.name}
+                                {topCat.name}
                             </div>
                             <div className="relative z-10 bg-gradient-to-t from-black/70 to-transparent p-4 flex items-center justify-between">
                                 <span className="drop-shadow text-lg font-semibold text-white">
-                                    {cat.name}
+                                    {topCat.name}
                                 </span>
-                                <span className="ml-2 text-xs bg-white/80 text-gray-700 rounded px-2 py-1 font-mono">{cat.count} búsquedas</span>
+                                <span className="ml-2 text-xs bg-white/80 text-gray-700 rounded px-2 py-1 font-mono">{topCat.count} búsquedas</span>
                             </div>
                         </Link>
                     ))}
