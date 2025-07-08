@@ -1,10 +1,12 @@
 import Image from "next/image"
 import { client } from "@/sanity/client"
 import aboutUsQuery from "@/sanity/aboutUsQuery"
+import { urlFor } from "@/sanity/image"
 
 const AboutUs = async () => {
   const data = await client.fetch(aboutUsQuery)
-
+  // FOLLOW THIS PATTERN FOR IMAGES:
+  const imageUrl = urlFor(data.image).url()
   return (
     <section className="py-16 px-8">
       {/* TÍTULO FUERA DE LA GRID */}
@@ -19,7 +21,7 @@ const AboutUs = async () => {
         {/* IZQUIERDA: SOLO imagen */}
         <div className="h-[500px] relative w-full">
           <Image 
-            src={data.image.asset.url}
+            src={imageUrl}
             alt="Imagen de la sección About Us"
             fill
             className="rounded-xl object-cover"
