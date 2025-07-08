@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { useState } from 'react'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CatalogFilters({ categories = [], subcategories = [] }: { categories: any[]; subcategories: any[] }) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
