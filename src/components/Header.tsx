@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const Header = () => {
   return (
-    <header className="bg-gray-100 py-4 px-6 shadow-sm">
+    <header className="bg-gray-100 py-4 px-6 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between relative">
         {/* Left nav */}
         <nav className="flex gap-8 text-gray-800 font-mono text-lg">
