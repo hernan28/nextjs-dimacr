@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import MostSearched from '../components/mostSearched';
 import AboutUs from "@/components/AboutUs"
+import Link from 'next/link'
 
 const DimaLogo = () => (
   <svg width="84" height="32" viewBox="0 0 84 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,9 +37,7 @@ export default function Home() {
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
               La tienda #1 de equipo fotográfico en Costa Rica
             </h1>
-            <button className="mt-8 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-sm">
-              VER CATÁLOGO
-            </button>
+            <Link href="/catalog" className="btn btn-primary mt-4">Ver CATÁLOGO</Link>
           </div>
         </section>
 
