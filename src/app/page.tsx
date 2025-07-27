@@ -2,6 +2,7 @@ import Image from 'next/image';
 import MostSearched from '../components/mostSearched';
 import AboutUs from "@/components/AboutUs"
 import Link from 'next/link'
+import OurProducts from '@/components/ourProducts'
 
 const DimaLogo = () => (
   <svg width="84" height="32" viewBox="0 0 84 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,12 +13,6 @@ const DimaLogo = () => (
     <path d="M84 0H78.4V32H84V0Z" fill="black"/>
   </svg>
 );
-
-const ChevronRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="m9 18 6-6-6-6" />
-  </svg>
-)
 
 export default function Home() {
   return (
@@ -45,54 +40,7 @@ export default function Home() {
         <MostSearched />
 
         {/* Products Section */}
-        <section className="py-16 px-8 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-sm text-gray-500">Explora</p>
-                <h2 className="text-4xl font-bold mt-2">Nuestros productos</h2>
-              </div>
-              <div className="flex items-center gap-4">
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-full text-sm">
-                  VER TODOS
-                </button>
-                <div className="flex gap-2">
-                  <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100">
-                    <ChevronRightIcon className="transform rotate-180" />
-                  </button>
-                  <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center">
-                    <ChevronRightIcon />
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {[
-                { name: 'Baterías', img: 'https://placehold.co/200x200/png' },
-                { name: 'Estuches y Maletines', img: 'https://placehold.co/200x200/png' },
-                { name: 'Proyección', img: 'https://placehold.co/200x200/png' },
-                { name: 'Impresoras y Escaneres', img: 'https://placehold.co/200x200/png' },
-                { name: 'Accesorios de Camara', img: 'https://placehold.co/200x200/png' },
-                { name: 'Almacenamiento', img: 'https://placehold.co/200x200/png' },
-              ].map((product) => (
-                <div key={product.name} className="text-center">
-                  <div className="bg-white rounded-lg p-4 flex items-center justify-center h-48">
-                    <Image src={product.img} alt={product.name} width={150} height={150} objectFit="contain" />
-                  </div>
-                  <h3 className="mt-4 font-semibold">{product.name}</h3>
-                </div>
-              ))}
-            </div>
-             <div className="flex justify-center mt-8">
-                <div className="flex space-x-2">
-                    <div className="w-8 h-1 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-1 bg-gray-300 rounded-full"></div>
-                    <div className="w-3 h-1 bg-gray-300 rounded-full"></div>
-                    <div className="w-3 h-1 bg-gray-300 rounded-full"></div>
-                </div>
-            </div>
-          </div>
-        </section>
+       <OurProducts />
         
         {/* Brands Section */}
         <section className="py-12 px-8">
