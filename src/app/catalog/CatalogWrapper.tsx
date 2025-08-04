@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import CatalogFilters from './CatalogFilters'
 import ItemCard from './ItemCard'
+import { Category, Subcategory, Item } from "../types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CatalogWrapper({ categories, subcategories, items }: { 
-  categories: any[]; 
-  subcategories: any[]; 
-  items: any[] 
+  categories: Category[]; 
+  subcategories: Subcategory[]; 
+  items: Item[] 
 }) {
   const [filteredItems, setFilteredItems] = useState(items)
 
@@ -29,7 +29,7 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredItems.map((item: any) => <ItemCard key={item._id} item={item} />)}
+            {filteredItems.map((item: Item) => <ItemCard key={item._id} item={item} />)}
           </div>
         )}
       </main>

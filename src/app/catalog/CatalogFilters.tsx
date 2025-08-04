@@ -3,18 +3,18 @@
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { useState, useEffect, useMemo } from 'react'
+import { Category, Subcategory, Item } from "../types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CatalogFilters({ 
   categories = [], 
   subcategories = [], 
   items = [],
   onFilteredItemsChange 
 }: { 
-  categories: any[]; 
-  subcategories: any[]; 
-  items: any[];
-  onFilteredItemsChange: (filteredItems: any[]) => void;
+  categories: Category[]; 
+  subcategories: Subcategory[]; 
+  items: Item[];
+  onFilteredItemsChange: (filteredItems: Item[]) => void;
 }) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('unassigned')

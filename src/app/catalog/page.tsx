@@ -1,7 +1,6 @@
 import { fetchCatalogData } from '@/sanity/catalog'
-import CatalogWrapper from '@/app/catalog/CatalogWrapper'
+import CatalogWrapper from './CatalogWrapper'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function CatalogPage() {
   const { categories, subcategories, items } = await fetchCatalogData()
   

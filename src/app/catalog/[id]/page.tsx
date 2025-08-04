@@ -3,9 +3,9 @@ import { notFound } from 'next/navigation'
 import ItemDetail from '@/app/catalog/[id]/ItemDetail'
 
 interface ItemPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function ItemPage({ params }: ItemPageProps) {
