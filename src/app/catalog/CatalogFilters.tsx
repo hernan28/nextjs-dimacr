@@ -58,35 +58,52 @@ export default function CatalogFilters({
 
   return (
     <form className="space-y-4">
-      <Input
-        placeholder="Buscar por nombre..."
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Buscar</label>
+        <Input
+          placeholder="Buscar por nombre..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="w-full"
+        />
+      </div>
 
-      <Select value={category} onValueChange={setCategory}>
-        <SelectTrigger>
-          <SelectValue placeholder="Todas las categorías" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="unassigned">Todas las categorías</SelectItem>
-          {categories.map(cat => (
-            <SelectItem key={cat._id} value={cat._id}>{cat.title}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+        <Select value={category} onValueChange={setCategory}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Todas las categorías" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="unassigned">Todas las categorías</SelectItem>
+            {categories.map(cat => (
+              <SelectItem key={cat._id} value={cat._id}>{cat.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-      <Select value={subcategory} onValueChange={setSubcategory}>
-        <SelectTrigger>
-          <SelectValue placeholder="Todas las subcategorías" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="unassigned">Todas las subcategorías</SelectItem>
-          {filteredSubcategories.map(sub => (
-            <SelectItem key={sub._id} value={sub._id}>{sub.title}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Subcategoría</label>
+        <Select value={subcategory} onValueChange={setSubcategory}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Todas las subcategorías" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="unassigned">Todas las subcategorías</SelectItem>
+            {filteredSubcategories.map(sub => (
+              <SelectItem key={sub._id} value={sub._id}>{sub.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Results count */}
+      <div className="pt-2 border-t border-gray-200">
+        <p className="text-sm text-gray-600">
+          {filteredItems.length} producto{filteredItems.length !== 1 ? 's' : ''} encontrado{filteredItems.length !== 1 ? 's' : ''}
+        </p>
+      </div>
     </form>
   )
 }

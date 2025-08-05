@@ -19,20 +19,25 @@ export default function Home() {
     <div className="bg-gray-50 text-gray-900 font-sans">
       <main>
         {/* Hero Section */}
-        <section className="relative h-[600px] text-white">
+        <section className="relative h-[400px] sm:h-[500px] lg:h-[600px] text-white">
           <Image
             src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2564&auto=format&fit=crop"
             alt="Photographer with camera on tripod"
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             priority
           />
           <div className="absolute inset-0 bg-black bg-opacity-40" />
-          <div className="relative z-10 flex flex-col items-start justify-center h-full p-8 md:p-16 max-w-2xl">
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+          <div className="relative z-10 flex flex-col items-start justify-center h-full p-4 sm:p-8 lg:p-16 max-w-2xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight">
               La tienda #1 de equipo fotográfico en Costa Rica
             </h1>
-            <Link href="/catalog" className="btn btn-primary mt-4">Ver CATÁLOGO</Link>
+            <Link 
+              href="/catalog" 
+              className="mt-4 sm:mt-6 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-full text-sm sm:text-base transition-colors duration-200"
+            >
+              Ver CATÁLOGO
+            </Link>
           </div>
         </section>
 
@@ -43,14 +48,14 @@ export default function Home() {
        <OurProducts />
         
         {/* Brands Section */}
-        <section className="py-12 px-8">
-            <div className="max-w-7xl mx-auto grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
-                <Image src="https://tailwindui.com/img/logos/158x48/canon-gray-400.svg" alt="Canon" width={120} height={40} />
-                <Image src="https://tailwindui.com/img/logos/158x48/nikon-gray-400.svg" alt="Nikon" width={120} height={40} />
-                <Image src="https://tailwindui.com/img/logos/158x48/sony-gray-400.svg" alt="Sony" width={120} height={40} />
-                <Image src="https://tailwindui.com/img/logos/158x48/fujifilm-gray-400.svg" alt="Fujifilm" width={120} height={40} />
-                <Image src="https://tailwindui.com/img/logos/158x48/blackmagic-gray-400.svg" alt="Blackmagic" width={120} height={40} />
-                <Image src="https://tailwindui.com/img/logos/158x48/gopro-gray-400.svg" alt="GoPro" width={120} height={40} />
+        <section className="py-8 sm:py-12 px-4 sm:px-8">
+            <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 sm:gap-8 items-center justify-items-center">
+                <Image src="https://tailwindui.com/img/logos/158x48/canon-gray-400.svg" alt="Canon" width={120} height={40} className="w-16 sm:w-20 lg:w-24" />
+                <Image src="https://tailwindui.com/img/logos/158x48/nikon-gray-400.svg" alt="Nikon" width={120} height={40} className="w-16 sm:w-20 lg:w-24" />
+                <Image src="https://tailwindui.com/img/logos/158x48/sony-gray-400.svg" alt="Sony" width={120} height={40} className="w-16 sm:w-20 lg:w-24" />
+                <Image src="https://tailwindui.com/img/logos/158x48/fujifilm-gray-400.svg" alt="Fujifilm" width={120} height={40} className="w-16 sm:w-20 lg:w-24" />
+                <Image src="https://tailwindui.com/img/logos/158x48/blackmagic-gray-400.svg" alt="Blackmagic" width={120} height={40} className="w-16 sm:w-20 lg:w-24" />
+                <Image src="https://tailwindui.com/img/logos/158x48/gopro-gray-400.svg" alt="GoPro" width={120} height={40} className="w-16 sm:w-20 lg:w-24" />
             </div>
         </section>
 
@@ -60,19 +65,21 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white pt-16 pb-8 px-8">
+      <footer className="bg-white pt-12 sm:pt-16 pb-8 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-              <div className="col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="sm:col-span-2">
                 <DimaLogo />
-                <p className="mt-4 text-sm text-gray-600 max-w-md">Dima es una pequeña empresa fundada en 1972. Desde ese momento, la empresa se ha dedicado a la importación, distribución y venta de equipos y suministros para la fotografía.</p>
+                <p className="mt-4 text-sm text-gray-600 max-w-md">
+                  Dima es una pequeña empresa fundada en 1972. Desde ese momento, la empresa se ha dedicado a la importación, distribución y venta de equipos y suministros para la fotografía.
+                </p>
               </div>
               <div>
-                <h4 className="font-bold">Teléfono</h4>
+                <h4 className="font-bold text-sm sm:text-base">Teléfono</h4>
                 <p className="text-sm mt-2">+506 8888-8888</p>
-                <h4 className="font-bold mt-4">WhatsApp</h4>
+                <h4 className="font-bold mt-4 text-sm sm:text-base">WhatsApp</h4>
                 <p className="text-sm mt-2">+506 8888-8888</p>
-                <h4 className="font-bold mt-4">Correo</h4>
+                <h4 className="font-bold mt-4 text-sm sm:text-base">Correo</h4>
                 <p className="text-sm mt-2">info@dima.com</p>
               </div>
                <div>
@@ -81,7 +88,7 @@ export default function Home() {
                 <a href="#" className="block text-sm font-semibold mt-4 hover:text-red-500">Política de envío</a>
               </div>
           </div>
-          <div className="border-t border-gray-200 mt-8 pt-6 flex justify-between items-center text-sm text-gray-500">
+          <div className="border-t border-gray-200 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500 gap-4">
             <p>©2025 Dima</p>
             <p>Diseñado por Coolebra Studio y Hernito</p>
           </div>
