@@ -55,12 +55,12 @@ export default function ItemDetail({ item }: ItemDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Image Carousel */}
-          <div className="space-y-4">
-            <div className="relative aspect-square bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div className="space-y-3 sm:space-y-4">
+            <div className="relative aspect-square bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
               {item.images && item.images.length > 0 ? (
                 <>
                   <Image
@@ -76,27 +76,27 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                     <>
                       <button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200"
+                        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1.5 sm:p-2 shadow-lg transition-all duration-200"
                       >
-                        <ChevronLeft className="w-6 h-6" />
+                        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
                       </button>
                       <button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200"
+                        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1.5 sm:p-2 shadow-lg transition-all duration-200"
                       >
-                        <ChevronRight className="w-6 h-6" />
+                        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
                       </button>
                     </>
                   )}
                   
                   {/* Image Counter */}
-                  <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                     {currentImageIndex + 1} / {item.images.length}
                   </div>
                 </>
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100">
-                  <span>No Image Available</span>
+                  <span className="text-sm sm:text-base">No Image Available</span>
                 </div>
               )}
             </div>
@@ -108,7 +108,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                   <button
                     key={index}
                     onClick={() => goToImage(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                       index === currentImageIndex 
                         ? 'border-blue-500 shadow-lg' 
                         : 'border-gray-200 hover:border-gray-300'
@@ -128,23 +128,23 @@ export default function ItemDetail({ item }: ItemDetailProps) {
           </div>
 
           {/* Product Details */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <div>
               {/* Breadcrumb */}
               {item.subcategory?.category && (
-                <div className="text-sm text-gray-500 mb-2">
+                <div className="text-xs sm:text-sm text-gray-500 mb-2">
                   {item.subcategory.category.title} / {item.subcategory.title}
                 </div>
               )}
               
               {/* Title */}
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
                 {item.title}
               </h1>
 
               {/* Price */}
               {item.price !== undefined && item.price !== null && (
-                <div className="text-4xl font-bold text-green-600 mb-6">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600 mb-4 sm:mb-6">
                   ${Number(item.price).toLocaleString()}
                 </div>
               )}
@@ -152,48 +152,48 @@ export default function ItemDetail({ item }: ItemDetailProps) {
 
             {/* Description */}
             {item.description && (
-              <Card className="p-6 bg-white">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <Card className="p-4 sm:p-6 bg-white">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
                   Descripción
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                   {item.description}
                 </p>
               </Card>
             )}
 
             {/* Contact Buttons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="space-y-3 sm:space-y-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 ¿Te interesa este producto?
               </h3>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Button
                   onClick={handleWhatsAppContact}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                 >
-                  <MessageCircle className="w-5 h-5 mr-2" />
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Contactar por WhatsApp
                 </Button>
                 
                 <Button
                   onClick={handlePhoneContact}
                   variant="outline"
-                  className="flex-1 border-2 border-gray-300 hover:border-gray-400 text-gray-700 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="flex-1 border-2 border-gray-300 hover:border-gray-400 text-gray-700 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                 >
-                  <Phone className="w-5 h-5 mr-2" />
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Llamar
                 </Button>
               </div>
             </div>
 
             {/* Additional Info */}
-            <Card className="p-6 bg-white">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            <Card className="p-4 sm:p-6 bg-white">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
                 Información del producto
               </h3>
-              <div className="space-y-2 text-sm text-gray-600">
+              <div className="space-y-2 text-xs sm:text-sm text-gray-600">
                 <div className="flex justify-between">
                   <span>Categoría:</span>
                   <span className="font-medium">
