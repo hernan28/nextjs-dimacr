@@ -4,11 +4,13 @@ import "./globals.css";
 import Header from "@/components/Header";
 
 const geistSans = Geist({
+  weight: "400",
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
+  weight: "600",
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -42,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-stone-200`}
       >
         <Header />
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20 sm:pt-24">
