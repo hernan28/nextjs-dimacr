@@ -104,6 +104,7 @@ export default function OurProducts() {
                     width={150}
                     height={150}
                     quality={1}
+                    loading="lazy"
                     className="object-contain w-full h-full"
                   />
                 </div>
