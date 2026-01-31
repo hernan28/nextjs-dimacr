@@ -55,7 +55,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+    <div className="min-h-screen py-4 sm:py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Image Carousel */}
@@ -67,7 +67,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                     src={urlFor(item.images[currentImageIndex]).url()}
                     fill
                     alt={`${item.title} - Image ${currentImageIndex + 1}`}
-                    className="object-cover"
+                    className="object-contain"
                     priority
                   />
                   
@@ -76,13 +76,13 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                     <>
                       <button
                         onClick={prevImage}
-                        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1.5 sm:p-2 shadow-lg transition-all duration-200"
+                        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1.5 sm:p-2 shadow-lg transition-all duration-200 cursor-pointer"
                       >
                         <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
                       </button>
                       <button
                         onClick={nextImage}
-                        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1.5 sm:p-2 shadow-lg transition-all duration-200"
+                        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1.5 sm:p-2 shadow-lg transition-all duration-200 cursor-pointer"
                       >
                         <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
                       </button>
@@ -110,8 +110,8 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                     onClick={() => goToImage(index)}
                     className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                       index === currentImageIndex 
-                        ? 'border-blue-500 shadow-lg' 
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-red-500 shadow-lg' 
+                        : 'border-gray-200 hover:border-gray-300 cursor-pointer'
                     }`}
                   >
                     <Image
@@ -144,23 +144,11 @@ export default function ItemDetail({ item }: ItemDetailProps) {
 
               {/* Price */}
               {item.price !== undefined && item.price !== null && (
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-500 mb-4 sm:mb-6">
+                <data value={item.price} aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl mb-4 sm:mb-6 py-4 block">
                   {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })}
-                </div>
+                </data>
               )}
             </div>
-
-            {/* Description */}
-            {item.description && (
-              <Card className="p-4 sm:p-6 bg-white">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
-                  Descripción
-                </h3>
-                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                  {item.description}
-                </p>
-              </Card>
-            )}
 
             {/* Contact Buttons */}
             <div className="space-y-3 sm:space-y-4">
@@ -187,6 +175,18 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                 </Button>
               </div>
             </div>
+
+            {/* Description */}
+            {item.description && (
+              <Card className="p-4 sm:p-6 bg-white">
+                <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-1">
+                  Descripción
+                </h2>
+                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                  {item.description}
+                </p>
+              </Card>
+            )}
 
             {/* Additional Info */}
             <Card className="p-4 sm:p-6 bg-white">
