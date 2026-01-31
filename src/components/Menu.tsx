@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { usePathname } from 'next/dist/client/components/navigation';
 
 const menuItems = [
   {
@@ -54,6 +55,7 @@ const menuItems = [
 
 export default function MegaMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="relative group">
@@ -71,7 +73,6 @@ export default function MegaMenu() {
         absolute z-50 left-1/2 top-full mt-2 bg-white shadow-lg border border-gray-200 rounded-lg transition-all duration-300
         ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
         w-screen max-w-5xl -translate-x-1/2 lg:grid lg:grid-cols-2 xl:grid-cols-4 gap-6 p-6
-        lg:block
       `}>
         {menuItems.map((section) => (
           <div key={section.title} className="mb-6 lg:mb-0">
@@ -81,7 +82,7 @@ export default function MegaMenu() {
                 <li key={item}>
                   <Link 
                     href="#" 
-                    className="hover:underline text-gray-700 hover:text-black text-sm lg:text-base block py-1"
+                    className={`hover:underline text-gray-700 hover:text-black text-sm lg:text-base block py-1" ${pathname === '#' ? 'text-red-500' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
                     {item}
