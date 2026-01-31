@@ -66,6 +66,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                   <Image
                     src={urlFor(item.images[currentImageIndex]).url()}
                     fill
+                    quality={90}
                     alt={`${item.title} - Image ${currentImageIndex + 1}`}
                     className="object-contain"
                     priority
@@ -118,6 +119,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                       src={urlFor(image).url()}
                       width={80}
                       height={80}
+                      quality={1}
                       alt={`${item.title} thumbnail ${index + 1}`}
                       className="object-cover w-full h-full"
                     />
@@ -144,22 +146,24 @@ export default function ItemDetail({ item }: ItemDetailProps) {
 
               {/* Price */}
               {item.price !== undefined && item.price !== null && (
-                <data value={item.price} aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl mb-4 sm:mb-6 py-4 block">
+                <data value={item.price} aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl pt-4 block">
                   {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })}
                 </data>
-              )}
+                
+              )} <p className="text-xs sm:text-sm text-gray-500">IVA incluído</p>
             </div>
 
             {/* Contact Buttons */}
             <div className="space-y-3 sm:space-y-4">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                ¿Te interesa este producto?
+                Consultar Disponibilidad
               </h3>
               
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Button
                   onClick={handleWhatsAppContact}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  variant="default"
+                  size="lg"
                 >
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Contactar por WhatsApp
@@ -167,8 +171,9 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                 
                 <Button
                   onClick={handlePhoneContact}
-                  variant="outline"
-                  className="flex-1 border-2 border-gray-300 hover:border-gray-400 text-gray-700 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  variant="secondary"
+                  size="lg"
+                  className='sm:hidden'
                 >
                   <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Llamar
@@ -189,7 +194,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
             )}
 
             {/* Additional Info */}
-            <Card className="p-4 sm:p-6 bg-white">
+            {/* <Card className="p-4 sm:p-6 bg-white">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
                 Información del producto
               </h3>
@@ -207,7 +212,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                   </span>
                 </div>
               </div>
-            </Card>
+            </Card> */}
           </div>
         </div>
       </div>
