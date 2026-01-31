@@ -145,7 +145,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
               {/* Price */}
               {item.price !== undefined && item.price !== null && (
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-500 mb-4 sm:mb-6">
-                  {Number(item.price).toLocaleString("es-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })}
+                  {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })}
                 </div>
               )}
             </div>
