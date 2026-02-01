@@ -6,7 +6,7 @@
     font-family: var(--font-geist-sans);
   }
 
-  h1, h2 {
+  h1, h2, a {
     font-family: var(--font-geist-mono);
     font-weight: 600;
   }

@@ -6,6 +6,8 @@ import { ChevronRightIcon } from 'lucide-react'
 import { client } from '@/sanity/client'
 import useEmblaCarousel from 'embla-carousel-react'
 import '@/app/globals.css'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
 type Subcategory = {
   _id: string
@@ -59,19 +61,21 @@ export default function OurProducts() {
   }, [subcategories, emblaApi])
 
   return (
-    <section className="py-8 sm:py-16 px-4 sm:px-8 bg-white">
+    <section className="py-8 sm:py-16 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 items-end">
           <div>
             <p className="text-sm text-gray-500">Explora</p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">Nuestros productos</h2>
           </div>
           <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
             {/* TODO: Add link for navigation */}
-            <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 sm:px-5 rounded-full text-sm flex-1 sm:flex-none cursor-pointer">
-              VER TODOS
-            </button>
+            <Button asChild variant="default" size="lg">
+              <Link href="/catalog">
+                Ver Todo
+              </Link>
+            </Button>
             <div className="flex gap-2">
               <button
                 onClick={scrollPrev}
