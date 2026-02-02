@@ -66,7 +66,7 @@ export default function OurProducts() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 items-end">
           <div>
-            <p className="text-sm text-gray-500">Explora</p>
+            <span className="text-sm text-gray-500">Explora</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">Nuestros productos</h2>
           </div>
           <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
@@ -103,7 +103,7 @@ export default function OurProducts() {
                 className="min-w-[160px] sm:min-w-[180px] lg:min-w-[200px] max-w-[160px] sm:max-w-[180px] lg:max-w-[200px] flex-shrink-0 text-center cursor-pointer"
                 key={subcategory._id}
               >
-                <div className="bg-white rounded-lg p-3 sm:p-4 flex items-center justify-center h-36 sm:h-40 lg:h-48 shadow-sm">
+                <div className="bg-white rounded-lg p-3 sm:p-4 flex items-center justify-start h-36 sm:h-40 lg:h-48 shadow-sm">
                   <Image
                     src={subcategory.image?.asset?.url || 'https://placehold.co/200x200/png'}
                     alt={subcategory.title}
@@ -133,7 +133,8 @@ export default function OurProducts() {
               }`}
               style={{ cursor: 'pointer' }}
             />
-          ))}
+          ))
+          }
         </div>
       </div>
     </section>
