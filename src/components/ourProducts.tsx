@@ -71,24 +71,26 @@ export default function OurProducts() {
           </div>
           <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
             {/* TODO: Add link for navigation */}
-            <Button asChild variant="default" size="lg">
+            <Button asChild variant="default" size="sm">
               <Link href="/catalog">
                 Ver Todo
               </Link>
             </Button>
             <div className="flex gap-2">
-              <button
+              <Button
                 onClick={scrollPrev}
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer"
+                variant="outline"
+                size="sm"
               >
                 <ChevronRightIcon className="transform rotate-180 w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={scrollNext}
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer"
+                variant="outline"
+                size="sm"
               >
                 <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>

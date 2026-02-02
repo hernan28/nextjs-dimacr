@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link'
+import { Button } from './ui/button';
 
 const categories = [
     { name: 'Cámaras', slug: 'camaras', count: 120 },
@@ -23,22 +24,23 @@ export default function MostSearched() {
     return (
         <section className="bg-gray-50 py-8 sm:py-12 px-4 sm:px-8 rounded-xl mx-4 sm:mx-8">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-6 sm:mb-8 flex flex-col gap-2">
+                <div className="mb-6 sm:mb-8 flex flex-col gap-2 items-start">
                     <span className="text-gray-500 text-sm font-mono">A un click</span>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
                         Más buscado por categoría
                     </h2>
-                    <p className="text-gray-600 max-w-xl text-sm sm:text-base">
+                    <p className="text-gray-600 max-w-xl text-sm sm:text-base mb-2">
                         Ofrecemos gran variedad de equipos de fotografía en Costa Rica con envíos gratis en el GAM.
                     </p>
-                    <button
-                        className="mt-2 w-fit border border-red-500 text-red-500 hover:bg-red-50 rounded px-4 py-2 font-semibold transition text-sm sm:text-base"
-                    >
-                        VER TODOS
-                    </button>
+                    <Button asChild variant="outline" size="sm">
+                        <Link href="/catalog">
+                            Ver Todos
+                        </Link>
+                    </Button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     {topCategories.map((topCat) => (
+
                         <Link
                             key={topCat.slug}
                             href={`/${topCat.slug}`}

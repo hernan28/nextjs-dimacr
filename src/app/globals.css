@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 @layer base {
-  body, h3, h4, h5, h6 {
+  body, h3, h4, h5, h6, data, p {
     font-family: var(--font-geist-sans);
   }
 

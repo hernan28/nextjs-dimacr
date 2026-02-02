@@ -21,7 +21,7 @@ export default function Home() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-tight">
             La tienda #1 de equipo fotográfico en Costa Rica
           </h1>
-          <Button asChild variant="default">
+          <Button asChild variant="default" size="lg">
             <Link href="/catalog">
               Ver Catálogo
             </Link>
