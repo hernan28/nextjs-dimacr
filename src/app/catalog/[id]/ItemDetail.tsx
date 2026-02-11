@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { urlFor } from '@/sanity/image'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Phone, MessageCircle } from 'lucide-react'
-import { Card } from '@/components/ui/card'
+import { CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 interface ItemDetailProps {
@@ -13,6 +13,8 @@ interface ItemDetailProps {
     title: string
     images: Array<{ asset: { url: string } }>
     description?: string
+    details?: string
+    sku?: string
     price?: number
     subcategory?: {
       _id: string
@@ -127,6 +129,7 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                 ))}
               </div>
             )}
+            
           </div>
 
           {/* Product Details */}
@@ -146,11 +149,11 @@ export default function ItemDetail({ item }: ItemDetailProps) {
 
               {/* Price */}
               {item.price !== undefined && item.price !== null && (
-                <data value={item.price} aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl pt-4 block">
-                  {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })}
-                </data>
+                <p aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl pt-4 block">
+                  {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })} <span className="text-xs sm:text-sm text-gray-500">IVA incluido</span>
+                </p>
                 
-              )} <p className="text-xs sm:text-sm text-gray-500">IVA incluído</p>
+              ) || 'Precio a consultar'} 
             </div>
 
             {/* Contact Buttons */}
@@ -181,38 +184,45 @@ export default function ItemDetail({ item }: ItemDetailProps) {
               </div>
             </div>
 
-            {/* Description */}
-            {item.description && (
-              <Card className="p-4 sm:p-6 bg-white">
-                <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-1">
-                  Descripción
+            {/* Detalles */}
+            {item.details && Array.isArray(item.details) && (
+              <CardDescription className="p-4 sm:p-6 bg-white">
+                <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
+                  Detalles
                 </h2>
-                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                  {item.description}
-                </p>
-              </Card>
+                <ul className="space-y-2">
+                    {item.details.map((detail, index) => (
+                    <li key={index} className="flex items-start gap-3 text-sm sm:text-base text-gray-700 leading-relaxed py-3 sm:py-4 border-b border-gray-200 last:border-b-0">
+                      <div className="flex-shrink-0 w-5 h-5 rounded-full border-2 border-red-500 flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      </div>
+                      <span>{detail}</span>
+                    </li>
+                    ))}
+                </ul>
+              </CardDescription>
             )}
 
+
             {/* Additional Info */}
-            {/* <Card className="p-4 sm:p-6 bg-white">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
-                Información del producto
-              </h3>
-              <div className="space-y-2 text-xs sm:text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <span>Categoría:</span>
-                  <span className="font-medium">
-                    {item.subcategory?.category?.title || 'N/A'}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Subcategoría:</span>
-                  <span className="font-medium">
-                    {item.subcategory?.title || 'N/A'}
-                  </span>
-                </div>
-              </div>
-            </Card> */}
+            <CardDescription className="p-4 sm:p-6 bg-white">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
+                Características del producto
+              </h2>
+              <ul>
+                <li className="flex items-start gap-3 text-sm sm:text-base text-gray-700 leading-relaxed py-3 sm:py-4 border-b border-gray-200 last:border-b-0">
+                  SKU: {item.sku || 'N/A'}
+                </li>
+                <li className="flex items-start gap-3 text-sm sm:text-base text-gray-700 leading-relaxed py-3 sm:py-4 border-b border-gray-200 last:border-b-0">
+                  Peso: {item.sku || 'N/A'}g
+                </li>
+              </ul>
+
+            </CardDescription>
+
+
           </div>
         </div>
       </div>
