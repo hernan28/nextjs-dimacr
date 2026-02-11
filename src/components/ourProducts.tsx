@@ -64,7 +64,7 @@ export default function OurProducts() {
     <section className="py-8 sm:py-16 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 items-end">
+        <div className="flex flex-col sm:flex-row justify-between mb-6 sm:mb-8 gap-4 items-end">
           <div>
             <span className="text-sm text-gray-500">Explora</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">Nuestros productos</h2>
