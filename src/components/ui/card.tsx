@@ -42,7 +42,7 @@ function CardDescription({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("bg-card text-card-foreground flex flex-col rounded-xl py-6", className)}
       {...props}
     />
   )
