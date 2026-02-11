@@ -14,7 +14,9 @@ export async function fetchItemById(id: string) {
     images[]{asset->{url}}, 
     subcategory->{_id, title, category->{_id, title}}, 
     price, 
-    description
+    description,
+    details,
+    sku
   }`, { id })
   return item
 } 
