@@ -15,6 +15,10 @@ interface ItemDetailProps {
     description?: string
     details?: string
     sku?: string
+    peso?: {
+      valor?: number
+      unidad?: string
+    }
     price?: number
     subcategory?: {
       _id: string
@@ -147,13 +151,14 @@ export default function ItemDetail({ item }: ItemDetailProps) {
                 {item.title}
               </h1>
 
-              {/* Price */}
-              {item.price !== undefined && item.price !== null && (
+                {/* Price */}
+                {item.price !== undefined && item.price !== null && item.price >= 1 ? (
                 <p aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl pt-4 block">
-                  {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits:2 })} <span className="text-xs sm:text-sm text-gray-500">IVA incluido</span>
+                  {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs sm:text-sm text-gray-500">IVA incluido</span>
                 </p>
-                
-              ) || 'Precio a consultar'} 
+                ) : (
+                <p className="text-2xl sm:text-3xl lg:text-3xl pt-4 block text-red-500">Consulte el precio</p>
+                )}
             </div>
 
             {/* Contact Buttons */}
@@ -213,13 +218,12 @@ export default function ItemDetail({ item }: ItemDetailProps) {
               </h2>
               <ul>
                 <li className="flex items-start gap-3 text-sm sm:text-base text-gray-700 leading-relaxed py-3 sm:py-4 border-b border-gray-200 last:border-b-0">
-                  SKU: {item.sku || 'N/A'}
+                  <span className='font-semibold'>SKU:</span> {item.sku || 'N/A'}
                 </li>
                 <li className="flex items-start gap-3 text-sm sm:text-base text-gray-700 leading-relaxed py-3 sm:py-4 border-b border-gray-200 last:border-b-0">
-                  Peso: {item.sku || 'N/A'}g
+                  <span className='font-semibold'>Peso:</span> {item.peso?.valor ? `${item.peso.valor} ${item.peso.unidad}` : 'N/A'}
                 </li>
               </ul>
-
             </CardDescription>
 
 

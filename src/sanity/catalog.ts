@@ -16,7 +16,10 @@ export async function fetchItemById(id: string) {
     price, 
     description,
     details,
-    sku
+    sku,
+    peso,
+    valor,
+    unidad
   }`, { id })
   return item
 } 
