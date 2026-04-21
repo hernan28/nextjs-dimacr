@@ -2,6 +2,18 @@ import Image from 'next/image'
 import { client } from '@/sanity/client'
 import { urlFor } from '@/sanity/image'
 
+interface Category {
+  _id: string
+  title: string
+  image: {
+    _type: string
+    asset: {
+      _ref: string
+      _type: string
+    }
+  }
+}
+
 // Show all matching categories, not just 4
 const mostSearchedCategoriesQuery = `
   *[_type == "category" && mostSearched == true] | order(_createdAt desc){
@@ -32,7 +44,7 @@ export default async function MostSearched() {
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {categories.map((cat: any, idx: number) => {
+          {categories.map((cat: Category, idx: number) => {
             const isLast = idx === categories.length - 1
             const isOdd = categories.length % 2 === 1
             // On large screens, if odd number and last, span 2 columns
