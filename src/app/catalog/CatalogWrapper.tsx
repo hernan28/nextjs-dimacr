@@ -17,7 +17,7 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
   return (
     <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
       {/* Mobile Filter Toggle */}
-      <div className="lg:hidden flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border">
+      <div className="lg:hidden flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
         <h2 className="text-lg font-semibold">Filtros</h2>
         <button
           onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -39,7 +39,7 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
 
       {/* Mobile Filter Sidebar */}
       {isFilterOpen && (
-        <div className="lg:hidden bg-white p-4 rounded-lg shadow-sm border">
+        <div className="lg:hidden bg-white p-4 rounded-lg shadow-sm">
           <CatalogFilters 
             categories={categories} 
             subcategories={subcategories} 
@@ -51,7 +51,7 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
 
       {/* Desktop Filter Sidebar */}
       <aside className="hidden lg:block w-64 flex-shrink-0">
-        <div className="bg-white p-4 rounded-lg shadow-sm border sticky top-24">
+        <div className="bg-white p-4 rounded-lg shadow-sm sticky top-24">
           <h2 className="text-lg font-semibold mb-4">Filtros</h2>
           <CatalogFilters 
             categories={categories} 

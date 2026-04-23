@@ -6,6 +6,8 @@ import { ChevronRightIcon } from 'lucide-react'
 import { client } from '@/sanity/client'
 import useEmblaCarousel from 'embla-carousel-react'
 import '@/app/globals.css'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
 type Subcategory = {
   _id: string
@@ -59,32 +61,36 @@ export default function OurProducts() {
   }, [subcategories, emblaApi])
 
   return (
-    <section className="py-8 sm:py-16 px-4 sm:px-8 bg-white">
+    <section className="py-8 sm:py-16 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between mb-6 sm:mb-8 gap-4 items-end">
           <div>
-            <p className="text-sm text-gray-500">Explora</p>
+            <span className="text-sm text-gray-500">Explora</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">Nuestros productos</h2>
           </div>
           <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
             {/* TODO: Add link for navigation */}
-            <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 sm:px-5 rounded-full text-sm flex-1 sm:flex-none">
-              VER TODOS
-            </button>
+            <Button asChild variant="default" size="sm">
+              <Link href="/catalog">
+                Ver Todo
+              </Link>
+            </Button>
             <div className="flex gap-2">
-              <button
+              <Button
                 onClick={scrollPrev}
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                variant="outline"
+                size="sm"
               >
                 <ChevronRightIcon className="transform rotate-180 w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={scrollNext}
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                variant="outline"
+                size="sm"
               >
                 <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -94,15 +100,17 @@ export default function OurProducts() {
           <div className="flex gap-4 sm:gap-6">
             {subcategories.map((subcategory) => (
               <div
-                className="min-w-[160px] sm:min-w-[180px] lg:min-w-[200px] max-w-[160px] sm:max-w-[180px] lg:max-w-[200px] flex-shrink-0 text-center"
+                className="min-w-[160px] sm:min-w-[180px] lg:min-w-[200px] max-w-[160px] sm:max-w-[180px] lg:max-w-[200px] flex-shrink-0 text-center cursor-pointer"
                 key={subcategory._id}
               >
-                <div className="bg-white rounded-lg p-3 sm:p-4 flex items-center justify-center h-36 sm:h-40 lg:h-48 shadow-sm">
+                <div className="bg-white rounded-lg p-3 sm:p-4 flex items-center justify-start h-36 sm:h-40 lg:h-48 shadow-sm">
                   <Image
                     src={subcategory.image?.asset?.url || 'https://placehold.co/200x200/png'}
                     alt={subcategory.title}
                     width={150}
                     height={150}
+                    quality={1}
+                    loading="lazy"
                     className="object-contain w-full h-full"
                   />
                 </div>
@@ -125,7 +133,8 @@ export default function OurProducts() {
               }`}
               style={{ cursor: 'pointer' }}
             />
-          ))}
+          ))
+          }
         </div>
       </div>
     </section>

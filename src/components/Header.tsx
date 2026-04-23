@@ -1,12 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import MegaMenu from './Menu';
+import { usePathname } from 'next/navigation';
+
+const navLinks = [
+  { href: '/catalog', label: 'Catálogo', position: 'left' },
+  { href: '/ofertas', label: 'Ofertas', position: 'left' },
+  { href: '/conocenos', label: 'Conócenos', position: 'right' },
+  { href: '/contacto', label: 'Contacto', position: 'right' },
+];
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const leftLinks = navLinks.filter(link => link.position === 'left');
+  const rightLinks = navLinks.filter(link => link.position === 'right');
 
   return (
     <header className="bg-white shadow-sm fixed top-0 left-0 w-full z-50">
@@ -36,9 +53,11 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             <MegaMenu />
-            <Link href="/ofertas" className="text-gray-700 hover:text-gray-900 font-medium">
-              Ofertas
-            </Link>
+            {leftLinks.map(link => (
+              <Link key={link.href} href={link.href} className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
+                {link.label}
+              </Link>
+            ))}
             <div className="flex items-center gap-1 text-gray-700 hover:text-gray-900 cursor-pointer">
               <span className="font-medium">Buscar</span>
               <Search className="h-4 w-4" />
@@ -47,12 +66,11 @@ const Header = () => {
 
           {/* Desktop Right Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
-            <Link href="/conocenos" className="text-gray-600 hover:text-gray-900 font-medium">
-              Conócenos
-            </Link>
-            <Link href="/contacto" className="text-gray-600 hover:text-gray-900 font-medium">
-              Contacto
-            </Link>
+            {rightLinks.map(link => (
+              <Link key={link.href} href={link.href} className={`text-gray-600 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           {/* Mobile search button */}
@@ -64,37 +82,19 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation Menu */}
-        {isMobileMenuOpen && (
+        {mounted && isMobileMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 bg-white">
             <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link
-                href="/catalog"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Catálogo
-              </Link>
-              <Link
-                href="/ofertas"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Ofertas
-              </Link>
-              <Link
-                href="/conocenos"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Conócenos
-              </Link>
-              <Link
-                href="/contacto"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contacto
-              </Link>
+              {navLinks.map(link => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
         )}
