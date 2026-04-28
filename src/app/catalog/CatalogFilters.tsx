@@ -2,23 +2,30 @@
 
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { Category, Subcategory, Item } from "../types";
 
 export default function CatalogFilters({ 
   categories = [], 
   subcategories = [], 
   items = [],
-  onFilteredItemsChange 
+  onFilteredItemsChange,
+  initialCategory,
+  initialSubcategory,
+  initialSearch
 }: { 
   categories: Category[]; 
   subcategories: Subcategory[]; 
   items: Item[];
   onFilteredItemsChange: (filteredItems: Item[]) => void;
+  initialCategory?: string;
+  initialSubcategory?: string;
+  initialSearch?: string;
 }) {
-  const [search, setSearch] = useState('')
-  const [category, setCategory] = useState('unassigned')
-  const [subcategory, setSubcategory] = useState('unassigned')
+  const [search, setSearch] = useState(initialSearch || '')
+  const [category, setCategory] = useState(initialCategory || 'unassigned')
+  const [subcategory, setSubcategory] = useState(initialSubcategory || 'unassigned')
+  const isFirstMount = useRef(true)
 
   // Filter subcategories based on selected category
   const filteredSubcategories = useMemo(() => {
@@ -51,8 +58,12 @@ export default function CatalogFilters({
     onFilteredItemsChange(filteredItems)
   }, [filteredItems, onFilteredItemsChange])
 
-  // Reset subcategory when category changes
+  // Reset subcategory when category changes (but only after first mount)
   useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false
+      return
+    }
     setSubcategory('unassigned')
   }, [category])
 

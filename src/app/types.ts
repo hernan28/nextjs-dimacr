@@ -18,3 +18,9 @@ export type Item = {
     images?: any[]; 
     subcategory?: Subcategory;
   };
+
+export type CatalogData = {
+  categories: Category[];
+  subcategories: Subcategory[];
+  items: Item[];
+};

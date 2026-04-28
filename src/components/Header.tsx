@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
-import MegaMenu from './Menu';
+import Megamenu from './Megamenu';
 import { usePathname } from 'next/navigation';
+import { CatalogData } from '@/app/types';
 
 const navLinks = [
   { href: '/catalog', label: 'Catálogo', position: 'left' },
@@ -13,7 +14,7 @@ const navLinks = [
   { href: '/contacto', label: 'Contacto', position: 'right' },
 ];
 
-const Header = () => {
+export default function Header({ menuItems }: { menuItems: CatalogData }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname()
@@ -21,8 +22,7 @@ const Header = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const leftLinks = navLinks.filter(link => link.position === 'left');
+  
   const rightLinks = navLinks.filter(link => link.position === 'right');
 
   return (
@@ -50,18 +50,10 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation Center */}
+          
           <nav className="hidden lg:flex items-center space-x-8">
-            <MegaMenu />
-            {leftLinks.map(link => (
-              <Link key={link.href} href={link.href} className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
-                {link.label}
-              </Link>
-            ))}
-            <div className="flex items-center gap-1 text-gray-700 hover:text-gray-900 cursor-pointer">
-              <span className="font-medium">Buscar</span>
-              <Search className="h-4 w-4" />
-            </div>
+            <Megamenu menuItems={menuItems} />
           </nav>
 
           {/* Desktop Right Navigation */}
@@ -103,4 +95,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+
