@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
-import MegaMenu from './Menu';
 import { usePathname } from 'next/navigation';
+import DesktopNav from './DesktopNav';
 
 const navLinks = [
   { href: '/catalog', label: 'Catálogo', position: 'left' },
@@ -26,9 +26,9 @@ const Header = () => {
   const rightLinks = navLinks.filter(link => link.position === 'right');
 
   return (
-    <header className="bg-white shadow-sm fixed top-0 left-0 w-full z-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="fixed top-2 sm:top-4 z-50 w-full px-3 sm:px-4 lg:px-6">
+      
+        <div className="flex items-center justify-between h-14 sm:h-15 site-container mx-auto px-4 sm:px-6 py-2.5 transition-all duration-300 shadow-[0px_1px_4px_0_rgba(25,33,61,0.06)] rounded-full bg-white">
           {/* Mobile menu button */}
           <div className="flex items-center lg:hidden">
             <button
@@ -52,7 +52,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <MegaMenu />
+            <DesktopNav />
             {leftLinks.map(link => (
               <Link key={link.href} href={link.href} className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
                 {link.label}
@@ -98,7 +98,7 @@ const Header = () => {
             </div>
           </div>
         )}
-      </div>
+      
     </header>
   );
 };
