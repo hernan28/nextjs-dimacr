@@ -13,7 +13,7 @@ const navLinks = [
   { href: '/contacto', label: 'Contacto', position: 'right' },
 ];
 
-const Header = () => {
+export default function Header = ({ menuItems }: { menuItems: CatalogData }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname()
@@ -52,7 +52,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <DesktopNav />
+            <DesktopNav menuItems={menuItems}/>
             {leftLinks.map(link => (
               <Link key={link.href} href={link.href} className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
                 {link.label}
@@ -102,5 +102,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;
