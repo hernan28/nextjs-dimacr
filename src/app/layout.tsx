@@ -2,6 +2,15 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { fetchCatalogData } from '@/sanity/catalog';
+import { ReactNode } from "react";
+
+interface MenuItems {
+  categories?: Array<{ _id: string; title: string }>;
+  subcategories?: Array<{ _id: string; title: string; category?: { _id: string } }>;
+  items?: Array<Record<string, unknown>>;
+}
+
 
 const geistSans = Geist({
   weight: "400",
@@ -36,17 +45,18 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
+  const menuItems: MenuItems = await fetchCatalogData();
   return (
     <html lang="es">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-stone-200`}
       >
-        <Header />
+        <Header menuItems={menuItems} />
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20 sm:pt-24">
           {children}
         </main>

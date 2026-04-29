@@ -3,27 +3,25 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 import DesktopNav from './DesktopNav';
+import { Button } from './ui/button';
+/* import { usePathname } from 'next/navigation'; */
 
-const navLinks = [
-  { href: '/catalog', label: 'Catálogo', position: 'left' },
-  { href: '/ofertas', label: 'Ofertas', position: 'left' },
-  { href: '/conocenos', label: 'Conócenos', position: 'right' },
-  { href: '/contacto', label: 'Contacto', position: 'right' },
-];
+interface MenuItemsType {
+  categories?: Array<{ _id: string; title: string }>;
+  subcategories?: Array<{ _id: string; title: string; category?: { _id: string } }>;
+  items?: Array<Record<string, unknown>>;
+}
 
-export default function Header = ({ menuItems }: { menuItems: CatalogData }) => {
+
+export default function Header({ menuItems }: { menuItems: MenuItemsType }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const pathname = usePathname()
+  /* const pathname = usePathname() */
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const leftLinks = navLinks.filter(link => link.position === 'left');
-  const rightLinks = navLinks.filter(link => link.position === 'right');
 
   return (
     <header className="fixed top-2 sm:top-4 z-50 w-full px-3 sm:px-4 lg:px-6">
@@ -51,13 +49,8 @@ export default function Header = ({ menuItems }: { menuItems: CatalogData }) => 
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8 bg-neutral-100 rounded-full px-4 py-2 relative">
             <DesktopNav menuItems={menuItems}/>
-            {leftLinks.map(link => (
-              <Link key={link.href} href={link.href} className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
-                {link.label}
-              </Link>
-            ))}
             <div className="flex items-center gap-1 text-gray-700 hover:text-gray-900 cursor-pointer">
               <span className="font-medium">Buscar</span>
               <Search className="h-4 w-4" />
@@ -66,11 +59,16 @@ export default function Header = ({ menuItems }: { menuItems: CatalogData }) => 
 
           {/* Desktop Right Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
-            {rightLinks.map(link => (
-              <Link key={link.href} href={link.href} className={`text-gray-600 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
-                {link.label}
-              </Link>
-            ))}
+            
+            <Link href="#" >
+              Conócenos
+            </Link>
+            
+            <Button asChild variant="default" size="sm"  >
+            <Link href="#">
+              Contacto
+            </Link>
+          </Button>
           </nav>
 
           {/* Mobile search button */}
@@ -101,4 +99,4 @@ export default function Header = ({ menuItems }: { menuItems: CatalogData }) => 
       
     </header>
   );
-};
+}
