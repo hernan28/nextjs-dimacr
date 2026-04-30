@@ -24,9 +24,9 @@ export default function Header({ menuItems }: { menuItems: MenuItemsType }) {
   }, []);
 
   return (
-    <header className="fixed top-2 sm:top-4 z-50 w-full px-3 sm:px-4 lg:px-6">
+    <header className="fixed top-2 z-20 w-full px-3 sm:px-4 lg:px-6">
       
-        <div className="flex items-center justify-between h-14 sm:h-15 site-container mx-auto px-4 sm:px-6 py-2.5 transition-all duration-300 shadow-[0px_1px_4px_0_rgba(25,33,61,0.06)] rounded-full bg-white">
+        <div className="flex items-center justify-between h-18 sm:h-20 site-container mx-auto px-4 sm:px-6 py-2.5 transition-all duration-300 shadow-[0px_1px_4px_0_rgba(25,33,61,0.06)] rounded-full bg-white">
           {/* Mobile menu button */}
           <div className="flex items-center lg:hidden">
             <button
@@ -49,22 +49,18 @@ export default function Header({ menuItems }: { menuItems: MenuItemsType }) {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8 bg-neutral-100 rounded-full px-4 py-2 relative">
+          <nav className="hidden lg:flex items-center">
             <DesktopNav menuItems={menuItems}/>
-            <div className="flex items-center gap-1 text-gray-700 hover:text-gray-900 cursor-pointer">
-              <span className="font-medium">Buscar</span>
-              <Search className="h-4 w-4" />
-            </div>
           </nav>
 
           {/* Desktop Right Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center gap-2">
             
-            <Link href="#" >
+            <Link href="#"  className="relative flex items-center gap-1 rounded-full px-6 py-3 transition-colors hover:bg-black hover:text-white" >
               Conócenos
             </Link>
             
-            <Button asChild variant="default" size="sm"  >
+            <Button asChild variant="default" size="lg"  >
             <Link href="#">
               Contacto
             </Link>
@@ -83,16 +79,6 @@ export default function Header({ menuItems }: { menuItems: MenuItemsType }) {
         {mounted && isMobileMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 bg-white">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navLinks.map(link => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
             </div>
           </div>
         )}
