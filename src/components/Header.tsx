@@ -49,7 +49,7 @@ export default function Header({ menuItems }: { menuItems: MenuItemsType }) {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center">
+          <nav aria-label="Main" data-orientation="horizontal" dir="ltr" className="hidden lg:flex items-center  z-10 w-full justify-center">
             <DesktopNav menuItems={menuItems}/>
           </nav>
 

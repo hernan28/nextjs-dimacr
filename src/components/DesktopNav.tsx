@@ -21,23 +21,13 @@ interface MenuItemsData {
 }
 
 export default function DesktopNav({ menuItems }: { menuItems: MenuItemsData }) {
-    const [blurred, setBlurred] = useState(false);
-
     return (
-        <>
-        <div 
-        className={` fixed top-0 left-0 w-full h-full backdrop-blur-xl bg-neutral-900/10 z-10 transition-opacity motion-reduce:transition-none ${blurred ? "opacity-100 block" : "opacity-0 hidden"}`}></div>
-        <nav 
-        onMouseEnter={() => {setBlurred(true);}}
-        onMouseLeave={() => {setBlurred(false);}}
-        onClick={() => {setBlurred(false);}}
-        className={`flex items-center gap-1 ${blurred ? "bg-white" : "bg-neutral-100 "} rounded-full px-4 py-2 z-20 relative`}>
+            <ul className="flex items-center gap-1 bg-neutral-100 rounded-full px-4 py-2 z-20">
             <FlyoutLink href="/" id="1" >Inicio</FlyoutLink>
             <FlyoutLink href="/catalog" id="2"  FlyoutContent={() => <Catalogo menuItems={menuItems} />}>Catálogo</FlyoutLink>
             <FlyoutLink href="/" id="3"  FlyoutContent={Ofertas}>Ofertas</FlyoutLink>
             <FlyoutLink href="/" id="4">Buscar<Search className={`h-4 w-4 transition-colors text-red-600`} /></FlyoutLink>
-        </nav>
-        </>
+            </ul>
     );
 }
 
@@ -49,24 +39,25 @@ const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode
     return (
         <div
             onMouseEnter={() => {setOpen(true);}}
-            onMouseLeave={() => {setOpen(false);}}
+            /* onMouseLeave={() => {setOpen(false);}} */
             onClick={() => {setOpen(false);}}
-            className="group relative z-40">
-            <Link href={href} id={id} className={`relative flex items-center gap-1 rounded-full px-6 py-3 transition-colors
+            className="group z-40">
+                <li>
+            <Link href={href} id={id} className={`flex items-center gap-1 rounded-full px-6 py-3 transition-colors
                 ${open ? "bg-black text-white" : "text-neutral-800"}`}>
                 {children}
                 {FlyoutContent && <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : "rotate-0"}`} />}
             </Link>
+            </li>
             <AnimatePresence>
                 {showFlyout && (
                     <motion.div
                         initial={{ opacity: 0, y: 0, scale: 0.9 }}
                         animate={{ opacity: 1, y: 15, scale: 1 }}
                         exit={{ opacity: 0, y: 0, scale: 0.9 }}
-                        style={{ translateX: "-50%" }}
                         transition={{ duration: 0.1, ease: "easeOut" }}
-                        className="absolute left-1/2 top-12 bg-transparent text-black ">
-                        <div className="absolute -top-8 left-0 right-0 h-8 bg-transparent" />
+                        className="absolute left-0 right-0 max-w-7xl mx-auto top-18 bg-transparent text-black shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-lg">
+                        <div className="absolute -top-10 left-0 right-0 h-12 bg-transparent" />
                         <FlyoutContent />
                     </motion.div>
                 )}
@@ -82,7 +73,7 @@ const Catalogo = ({ menuItems }: { menuItems: MenuItemsData }) => {
 
     return (
 
-        <nav className="grid grid-cols-4 gap-4 bg-white p-10 shadow-xl rounded-lg left-0 right-0 mx-auto w-7xl">
+        <nav className="grid grid-cols-6 gap-4 bg-white p-10 shadow-xl rounded-lg left-0 right-0 mx-auto w-full">
 
             {menuItems.categories.map((cat: Category) => {
                 const subCats = menuItems.subcategories?.filter((sub: SubCategory) => sub.category?._id === cat._id) || [];
