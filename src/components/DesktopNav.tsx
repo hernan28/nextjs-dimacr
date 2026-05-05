@@ -31,15 +31,22 @@ interface MenuItemsData {
 }
 
 export default function DesktopNav({ menuItems }: { menuItems: MenuItemsData }) {
+    const [blurred, setBlurred] = useState(false);
+
     return (
+        <>
+            <div className={`fixed top-0 left-0 w-full h-full backdrop-blur-xl bg-neutral-900/10 z-10 transition-opacity motion-reduce:transition-none ${blurred ? "opacity-100 block" : "opacity-0 hidden"}`} onClick={() => setBlurred(false)}></div>
             <ul className="flex items-center gap-1 bg-neutral-100 rounded-full px-4 py-2 z-20">
-            <FlyoutLink href="/" id="1" >Inicio</FlyoutLink>
-            <FlyoutLink href="/catalog" id="2"  FlyoutContent={(onClose: () => void) => <Catalogo menuItems={menuItems} onClose={onClose} />}>Catálogo</FlyoutLink>
-            <FlyoutLink href="/" id="3"  FlyoutContent={Ofertas}>Ofertas</FlyoutLink>
-            <FlyoutLink href="/" id="4" FlyoutContent={(onClose: () => void) => <SearchBar items={menuItems.items || []} categories={menuItems.categories || []} subcategories={menuItems.subcategories || []} onClose={onClose} />}>Buscar<Search className={`h-4 w-4 transition-colors text-red-600`} /></FlyoutLink>
+                <FlyoutLink href="/" id="1">Inicio</FlyoutLink>
+                <FlyoutLink href="/catalog" id="2" FlyoutContent={(onClose: () => void) => <Catalogo menuItems={menuItems} onClose={onClose} />}>Catálogo</FlyoutLink>
+                <FlyoutLink href="/" id="3" FlyoutContent={Ofertas}>Ofertas</FlyoutLink>
+                <SearchTabLink href="/" id="4" FlyoutContent={(onClose: () => void) => <SearchBar items={menuItems.items || []} categories={menuItems.categories || []} subcategories={menuItems.subcategories || []} onClose={onClose} />} onBlurChange={setBlurred}>Buscar<Search className={`h-4 w-4 transition-colors text-red-600`} /></SearchTabLink>
             </ul>
+        </>
     );
 }
+
+
 
 const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode; id: string; href: string; FlyoutContent?: ElementType | ((onClose: () => void) => ReactNode);}) => {
     const [open, setOpen] = useState(false);
@@ -50,7 +57,7 @@ const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode
     return (
         <div
             onMouseEnter={() => {setOpen(true);}}
-            /* onMouseLeave={() => {setOpen(false);}} */
+            onMouseLeave={() => {setOpen(false);}}
             className="group z-40">
                 <li>
             <Link href={href} id={id} className={`flex items-center gap-1 rounded-full px-6 py-3 transition-colors
@@ -69,6 +76,45 @@ const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode
                         className="absolute left-0 right-0 max-w-7xl mx-auto top-18 bg-transparent text-black shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-lg">
                         <div className="absolute -top-10 left-0 right-0 h-12 bg-transparent" />
                         {typeof FlyoutContent === 'function' && !('displayName' in FlyoutContent) ? (FlyoutContent as (onClose: () => void) => ReactNode)(handleClose) : FlyoutContent ? <FlyoutContent /> : null}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    )
+}
+
+const SearchTabLink = ({ children, href, FlyoutContent, id, onBlurChange }: { children: ReactNode; id: string; href: string; FlyoutContent: (onClose: () => void) => ReactNode; onBlurChange: (blurred: boolean) => void;}) => {
+    const [open, setOpen] = useState(false);
+
+    const showFlyout = open && FlyoutContent;
+    const handleClose = () => setOpen(false);
+
+    const handleOpenChange = (isOpen: boolean) => {
+        setOpen(isOpen);
+        onBlurChange(isOpen);
+    };
+
+    return (
+        <div
+            onMouseEnter={() => {handleOpenChange(true);}}
+            onMouseLeave={() => {handleOpenChange(false);}}
+            className="group z-40">
+                <li>
+            <Link href={href} id={id} className={`flex items-center gap-1 rounded-full px-6 py-3 transition-colors
+                ${open ? "bg-black text-white" : "text-neutral-800"}`}>
+                {children}
+            </Link>
+            </li>
+            <AnimatePresence>
+                {showFlyout && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 15, scale: 1 }}
+                        exit={{ opacity: 0, y: 0, scale: 0.9 }}
+                        transition={{ duration: 0.1, ease: "easeOut" }}
+                        className="absolute left-0 right-0 max-w-7xl mx-auto top-18 bg-transparent text-black shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-lg">
+                        <div className="absolute -top-10 left-0 right-0 h-12 bg-transparent" />
+                        {FlyoutContent(handleClose)}
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -178,40 +224,31 @@ const SearchBar = ({ items, categories, subcategories, onClose }: { items: Item[
                     placeholder="Buscar productos, categorías..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
             </div>
 
             {/* Categorías y Subcategorías como Pills */}
             {search && (filteredCategories.length > 0 || filteredSubcategories.length > 0) && (
-                <>
                 <div className="mb-6 pb-6 border-b border-gray-200">
                     <p className="text-xs text-gray-500 font-semibold mb-3 uppercase">Categorías</p>
                     <div className="flex flex-wrap gap-2">
                         {filteredCategories.map((cat) => (
                             <Link key={cat._id} href={`/catalog?category=${cat._id}`} onClick={onClose}>
-                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-black hover:text-white transition-colors cursor-pointer">
+                                <span className="inline-block px-4 py-2 border-2 bg-black text-white rounded-full text-sm font-medium hover:bg-red-600 transition-colors cursor-pointer">
                                     {cat.title}
                                 </span>
                             </Link>
                         ))}
-                        
-                    </div>
-
-                </div>
-                <div className="mb-6 pb-6 border-b border-gray-200">
-                                    <p className="text-xs text-gray-500 font-semibold mb-3 uppercase">Sub-categorías</p>
-                    <div className="flex flex-wrap gap-2">
-                    {filteredSubcategories.map((sub) => (
+                        {filteredSubcategories.map((sub) => (
                             <Link key={sub._id} href={`/catalog?category=${sub.category?._id}&subcategory=${sub._id}`} onClick={onClose}>
-                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-black hover:text-white transition-colors cursor-pointer">
+                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-red-600 hover:text-white transition-colors cursor-pointer">
                                     {sub.title}
                                 </span>
                             </Link>
                         ))}
                     </div>
-                    </div>
-                    </>
+                </div>
             )}
             
             {/* Productos */}
