@@ -224,31 +224,40 @@ const SearchBar = ({ items, categories, subcategories, onClose }: { items: Item[
                     placeholder="Buscar productos, categorías..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
             </div>
 
             {/* Categorías y Subcategorías como Pills */}
             {search && (filteredCategories.length > 0 || filteredSubcategories.length > 0) && (
+                <>
                 <div className="mb-6 pb-6 border-b border-gray-200">
                     <p className="text-xs text-gray-500 font-semibold mb-3 uppercase">Categorías</p>
                     <div className="flex flex-wrap gap-2">
                         {filteredCategories.map((cat) => (
                             <Link key={cat._id} href={`/catalog?category=${cat._id}`} onClick={onClose}>
-                                <span className="inline-block px-4 py-2 border-2 bg-black text-white rounded-full text-sm font-medium hover:bg-red-600 transition-colors cursor-pointer">
+                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-black hover:text-white transition-colors cursor-pointer">
                                     {cat.title}
                                 </span>
                             </Link>
                         ))}
+ 
+                    </div>
+                </div>
+                <div className="mb-6 pb-6 border-b border-gray-200">
+                    <p className="text-xs text-gray-500 font-semibold mb-3 uppercase">Sub-categorías</p>
+                    <div className="flex flex-wrap gap-2">
+                        
                         {filteredSubcategories.map((sub) => (
                             <Link key={sub._id} href={`/catalog?category=${sub.category?._id}&subcategory=${sub._id}`} onClick={onClose}>
-                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-red-600 hover:text-white transition-colors cursor-pointer">
+                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-black hover:text-white transition-colors cursor-pointer">
                                     {sub.title}
                                 </span>
                             </Link>
                         ))}
                     </div>
                 </div>
+                </>
             )}
             
             {/* Productos */}
