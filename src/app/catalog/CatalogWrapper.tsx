@@ -1,17 +1,38 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Filter, X } from 'lucide-react'
 import CatalogFilters from './CatalogFilters'
 import ItemCard from './ItemCard'
 import { Category, Subcategory, Item } from "../types";
 
-export default function CatalogWrapper({ categories, subcategories, items }: { 
-  categories: Category[]; 
-  subcategories: Subcategory[]; 
-  items: Item[] 
+export default function CatalogWrapper({ categories, subcategories, items, searchParams = {} }: {
+  categories: Category[];
+  subcategories: Subcategory[];
+  items: Item[];
+  searchParams?: { category?: string; subcategory?: string; search?: string };
 }) {
-  const [filteredItems, setFilteredItems] = useState(items)
+  // Pre-filtrar items basándose en searchParams
+  const initialFilteredItems = useMemo(() => {
+    return items.filter(item => {
+      // Search filter
+      const matchesSearch = !searchParams?.search || 
+        item.title.toLowerCase().includes(searchParams.search.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchParams.search.toLowerCase())
+
+      // Category filter
+      const matchesCategory = !searchParams?.category || 
+        item.subcategory?.category?._id === searchParams.category
+
+      // Subcategory filter
+      const matchesSubcategory = !searchParams?.subcategory || 
+        item.subcategory?._id === searchParams.subcategory
+
+      return matchesSearch && matchesCategory && matchesSubcategory
+    })
+  }, [items, searchParams])
+
+  const [filteredItems, setFilteredItems] = useState(initialFilteredItems)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   return (
@@ -40,11 +61,14 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
       {/* Mobile Filter Sidebar */}
       {isFilterOpen && (
         <div className="lg:hidden bg-white p-4 rounded-lg shadow-sm">
-          <CatalogFilters 
-            categories={categories} 
-            subcategories={subcategories} 
+          <CatalogFilters
+            categories={categories}
+            subcategories={subcategories}
             items={items}
             onFilteredItemsChange={setFilteredItems}
+            initialCategory={searchParams?.category}
+            initialSubcategory={searchParams?.subcategory}
+            initialSearch={searchParams?.search}
           />
         </div>
       )}
@@ -53,11 +77,14 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
       <aside className="hidden lg:block w-64 flex-shrink-0">
         <div className="bg-white p-4 rounded-lg shadow-sm sticky top-24">
           <h2 className="text-lg font-semibold mb-4">Filtros</h2>
-          <CatalogFilters 
-            categories={categories} 
-            subcategories={subcategories} 
+          <CatalogFilters
+            categories={categories}
+            subcategories={subcategories}
             items={items}
             onFilteredItemsChange={setFilteredItems}
+            initialCategory={searchParams?.category}
+            initialSubcategory={searchParams?.subcategory}
+            initialSearch={searchParams?.search}
           />
         </div>
       </aside>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState, ElementType, ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Search } from 'lucide-react';
+import Image from "next/image"
 
 interface Category {
     _id: string;
@@ -14,33 +15,42 @@ interface SubCategory {
     category?: { _id: string };
 }
 
+interface Item {
+    _id: string;
+    title: string;
+    price?: number;
+    description?: string;
+    images?: Array<{ asset: { url: string } }>;
+    subcategory?: { _id: string; title: string; category?: { _id: string } };
+}
+
 interface MenuItemsData {
     categories?: Category[];
     subcategories?: SubCategory[];
-    items?: Array<Record<string, unknown>>;
+    items?: Item[];
 }
 
 export default function DesktopNav({ menuItems }: { menuItems: MenuItemsData }) {
     return (
             <ul className="flex items-center gap-1 bg-neutral-100 rounded-full px-4 py-2 z-20">
             <FlyoutLink href="/" id="1" >Inicio</FlyoutLink>
-            <FlyoutLink href="/catalog" id="2"  FlyoutContent={() => <Catalogo menuItems={menuItems} />}>Catálogo</FlyoutLink>
+            <FlyoutLink href="/catalog" id="2"  FlyoutContent={(onClose: () => void) => <Catalogo menuItems={menuItems} onClose={onClose} />}>Catálogo</FlyoutLink>
             <FlyoutLink href="/" id="3"  FlyoutContent={Ofertas}>Ofertas</FlyoutLink>
-            <FlyoutLink href="/" id="4">Buscar<Search className={`h-4 w-4 transition-colors text-red-600`} /></FlyoutLink>
+            <FlyoutLink href="/" id="4" FlyoutContent={(onClose: () => void) => <SearchBar items={menuItems.items || []} categories={menuItems.categories || []} subcategories={menuItems.subcategories || []} onClose={onClose} />}>Buscar<Search className={`h-4 w-4 transition-colors text-red-600`} /></FlyoutLink>
             </ul>
     );
 }
 
-const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode; id: string; href: string; FlyoutContent?: ElementType;}) => {
+const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode; id: string; href: string; FlyoutContent?: ElementType | ((onClose: () => void) => ReactNode);}) => {
     const [open, setOpen] = useState(false);
 
     const showFlyout = open && FlyoutContent;
+    const handleClose = () => setOpen(false);
 
     return (
         <div
             onMouseEnter={() => {setOpen(true);}}
             /* onMouseLeave={() => {setOpen(false);}} */
-            onClick={() => {setOpen(false);}}
             className="group z-40">
                 <li>
             <Link href={href} id={id} className={`flex items-center gap-1 rounded-full px-6 py-3 transition-colors
@@ -58,7 +68,7 @@ const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode
                         transition={{ duration: 0.1, ease: "easeOut" }}
                         className="absolute left-0 right-0 max-w-7xl mx-auto top-18 bg-transparent text-black shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-lg">
                         <div className="absolute -top-10 left-0 right-0 h-12 bg-transparent" />
-                        <FlyoutContent />
+                        {typeof FlyoutContent === 'function' && !('displayName' in FlyoutContent) ? (FlyoutContent as (onClose: () => void) => ReactNode)(handleClose) : FlyoutContent ? <FlyoutContent /> : null}
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -66,7 +76,7 @@ const FlyoutLink = ({ children, href, FlyoutContent, id }: { children: ReactNode
     )
 }
 
-const Catalogo = ({ menuItems }: { menuItems: MenuItemsData }) => {
+const Catalogo = ({ menuItems, onClose }: { menuItems: MenuItemsData, onClose: () => void }) => {
     if (!menuItems?.categories) {
         return <nav>Error, por favor recargue la página</nav>;
     }
@@ -82,6 +92,7 @@ const Catalogo = ({ menuItems }: { menuItems: MenuItemsData }) => {
                     <div key={cat._id} className="mb-4 flex flex-col">
                         <a
                             href={`/catalog?category=${cat._id}`}
+                            onClick={onClose}
                             className="font-semibold text-neutral-900 mb-2 hover:text-red-500 transition-colors"
                         >
                             {cat.title}
@@ -91,6 +102,7 @@ const Catalogo = ({ menuItems }: { menuItems: MenuItemsData }) => {
                                 <li key={sub._id}>
                                     <a
                                         href={`/catalog?category=${cat._id}&subcategory=${sub._id}`}
+                                        onClick={onClose}
                                         className="text-sm text-neutral-600 hover:text-red-500 cursor-pointer transition-colors"
                                     >
                                         {sub.title}
@@ -135,4 +147,109 @@ const Ofertas = () => {
             </button>
         </nav>
     );
+}
+
+const SearchBar = ({ items, categories, subcategories, onClose }: { items: Item[], categories: Category[], subcategories: SubCategory[], onClose: () => void }) => {
+    const [search, setSearch] = useState('')
+    
+    // Filtrar productos
+    const filteredItems = items.filter(item =>
+        item.title.toLowerCase().includes(search.toLowerCase()) ||
+        item.description?.toLowerCase().includes(search.toLowerCase())
+    ).slice(0, 6)
+
+    // Filtrar categorías
+    const filteredCategories = categories.filter(cat =>
+        cat.title.toLowerCase().includes(search.toLowerCase())
+    ).slice(0, 4)
+
+    // Filtrar subcategorías
+    const filteredSubcategories = subcategories.filter(sub =>
+        sub.title.toLowerCase().includes(search.toLowerCase())
+    ).slice(0, 4)
+
+    const hasResults = filteredItems.length > 0 || filteredCategories.length > 0 || filteredSubcategories.length > 0
+
+    return (
+        <div className="bg-white p-6 shadow-xl rounded-lg w-full max-w-7xl">
+            <div className="mb-6">
+                <input
+                    type="text"
+                    placeholder="Buscar productos, categorías..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+            </div>
+
+            {/* Categorías y Subcategorías como Pills */}
+            {search && (filteredCategories.length > 0 || filteredSubcategories.length > 0) && (
+                <>
+                <div className="mb-6 pb-6 border-b border-gray-200">
+                    <p className="text-xs text-gray-500 font-semibold mb-3 uppercase">Categorías</p>
+                    <div className="flex flex-wrap gap-2">
+                        {filteredCategories.map((cat) => (
+                            <Link key={cat._id} href={`/catalog?category=${cat._id}`} onClick={onClose}>
+                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-black hover:text-white transition-colors cursor-pointer">
+                                    {cat.title}
+                                </span>
+                            </Link>
+                        ))}
+                        
+                    </div>
+
+                </div>
+                <div className="mb-6 pb-6 border-b border-gray-200">
+                                    <p className="text-xs text-gray-500 font-semibold mb-3 uppercase">Sub-categorías</p>
+                    <div className="flex flex-wrap gap-2">
+                    {filteredSubcategories.map((sub) => (
+                            <Link key={sub._id} href={`/catalog?category=${sub.category?._id}&subcategory=${sub._id}`} onClick={onClose}>
+                                <span className="inline-block px-4 py-2 border-2 text-black rounded-full text-sm font-medium hover:bg-black hover:text-white transition-colors cursor-pointer">
+                                    {sub.title}
+                                </span>
+                            </Link>
+                        ))}
+                    </div>
+                    </div>
+                    </>
+            )}
+            
+            {/* Productos */}
+            {hasResults ? (
+                filteredItems.length > 0 && (
+                    <div className="flex gap-4 overflow-x-auto pb-2">
+                        {filteredItems.map((item) => (
+                            <Link key={item._id} href={`/catalog/${item._id}`} onClick={onClose} className="flex-shrink-0 w-48">
+                                <div className="bg-gray-50 rounded-lg p-3 hover:shadow-lg transition-shadow h-full flex flex-col">
+                                    <div className="h-32 bg-white rounded-lg mb-3 flex items-center justify-center relative overflow-hidden">
+                                        {item.images && item.images.length > 0 ? (
+                                            <Image
+                                                src={item.images[0]?.asset?.url || ''}
+                                                fill
+                                                quality={1}
+                                                alt={item.title} 
+                                                className="h-full w-full object-contain"
+                                            />
+                                        ) : (
+                                            <span className="text-gray-400">Sin imagen</span>
+                                        )}
+                                    </div>
+                                    <h3 className="font-semibold text-sm line-clamp-2">{item.title}</h3>
+                                    {item.price && (
+                                        <p className="text-red-600 font-bold mt-2">
+                                            ${item.price.toFixed(2)}
+                                        </p>
+                                    )}
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )
+            ) : (
+                <div className="text-center py-8 text-gray-500">
+                    {search ? 'No se encontraron resultados' : 'Comienza a escribir para buscar'}
+                </div>
+            )}
+        </div>
+    )
 }
