@@ -6,12 +6,17 @@ import CatalogFilters from './CatalogFilters'
 import ItemCard from './ItemCard'
 import { Category, Subcategory, Item } from "../types";
 
-export default function CatalogWrapper({ categories, subcategories, items }: { 
+export default function CatalogWrapper({ categories, subcategories, items, initialSubcategory = 'unassigned' }: { 
   categories: Category[]; 
   subcategories: Subcategory[]; 
-  items: Item[] 
+  items: Item[];
+  initialSubcategory?: string;
 }) {
-  const [filteredItems, setFilteredItems] = useState(items)
+  const [filteredItems, setFilteredItems] = useState(() =>
+    initialSubcategory === 'unassigned'
+      ? items
+      : items.filter(item => item.subcategory?._id === initialSubcategory)
+  )
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   return (
@@ -44,6 +49,7 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
             categories={categories} 
             subcategories={subcategories} 
             items={items}
+            initialSubcategory={initialSubcategory}
             onFilteredItemsChange={setFilteredItems}
           />
         </div>
@@ -57,6 +63,7 @@ export default function CatalogWrapper({ categories, subcategories, items }: {
             categories={categories} 
             subcategories={subcategories} 
             items={items}
+            initialSubcategory={initialSubcategory}
             onFilteredItemsChange={setFilteredItems}
           />
         </div>

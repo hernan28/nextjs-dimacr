@@ -9,16 +9,18 @@ export default function CatalogFilters({
   categories = [], 
   subcategories = [], 
   items = [],
+  initialSubcategory = 'unassigned',
   onFilteredItemsChange 
 }: { 
   categories: Category[]; 
   subcategories: Subcategory[]; 
   items: Item[];
+  initialSubcategory?: string;
   onFilteredItemsChange: (filteredItems: Item[]) => void;
 }) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('unassigned')
-  const [subcategory, setSubcategory] = useState('unassigned')
+  const [subcategory, setSubcategory] = useState(initialSubcategory)
 
   // Filter subcategories based on selected category
   const filteredSubcategories = useMemo(() => {
@@ -51,11 +53,6 @@ export default function CatalogFilters({
     onFilteredItemsChange(filteredItems)
   }, [filteredItems, onFilteredItemsChange])
 
-  // Reset subcategory when category changes
-  useEffect(() => {
-    setSubcategory('unassigned')
-  }, [category])
-
   return (
     <form className="space-y-4">
       <div>
@@ -70,7 +67,13 @@ export default function CatalogFilters({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
-        <Select value={category} onValueChange={setCategory}>
+        <Select
+          value={category}
+          onValueChange={(value) => {
+            setCategory(value)
+            setSubcategory('unassigned')
+          }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Todas las categorías" />
           </SelectTrigger>

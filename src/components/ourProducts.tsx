@@ -99,7 +99,8 @@ export default function OurProducts() {
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex gap-4 sm:gap-6">
             {subcategories.map((subcategory) => (
-              <div
+              <Link
+                href={`/catalog?subcategory=${encodeURIComponent(subcategory._id)}`}
                 className="min-w-[160px] sm:min-w-[180px] lg:min-w-[200px] max-w-[160px] sm:max-w-[180px] lg:max-w-[200px] flex-shrink-0 text-center cursor-pointer"
                 key={subcategory._id}
               >
@@ -115,7 +116,7 @@ export default function OurProducts() {
                   />
                 </div>
                 <h3 className="mt-3 sm:mt-4 font-semibold text-xs sm:text-sm">{subcategory.title}</h3>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

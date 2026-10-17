@@ -22,7 +22,7 @@ const Header = () => {
     setMounted(true);
   }, []);
 
-  const leftLinks = navLinks.filter(link => link.position === 'left');
+  const leftLinks = navLinks.filter(link => link.position === 'left' && link.href !== '/catalog');
   const rightLinks = navLinks.filter(link => link.position === 'right');
 
   return (
