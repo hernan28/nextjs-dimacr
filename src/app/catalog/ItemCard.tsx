@@ -2,11 +2,11 @@ import { Card } from "@/components/ui/card"
 import { urlFor } from "@/sanity/image"
 import Image from "next/image"
 import Link from "next/link"
-
-// TODO Use item type from sanity?
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ItemCard({ item }: { item: any }) {
-const imageUrl = item.images?.[0] ? urlFor(item.images[0]).url() : null
+import { hasValidDiscount } from "@/lib/utils"
+import type { Item } from "../types"
+export default function ItemCard({ item }: { item: Item }) {
+  const imageUrl = item.images?.[0] ? urlFor(item.images[0]).url() : undefined
+  const isDiscounted = hasValidDiscount(item)
   return (
     <Link href={`/catalog/${item._id}`}>
       <Card className="p-3 sm:p-4 hover:shadow-lg focus-within:border-red-500 transition-shadow duration-200 cursor-pointer h-full flex flex-col">
@@ -35,7 +35,16 @@ const imageUrl = item.images?.[0] ? urlFor(item.images[0]).url() : null
               {item.description}
             </p>
           )}
-          {item.availabilityInquiry === true ? (
+          {isDiscounted ? (
+            <div aria-label="Precio con descuento" className="mt-2 sm:mt-3">
+              <span className="text-sm text-gray-500 line-through">
+                {item.price.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+              <p className="text-base sm:text-lg font-semibold text-red-600">
+                {item.discountedPrice.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+            </div>
+          ) : item.availabilityInquiry === true ? (
             <p className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">Consultar disponibilidad</p>
           ) : typeof item.price === 'number' && Number.isFinite(item.price) ? (
                 <p aria-label="Precio del producto" className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">

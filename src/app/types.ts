@@ -18,4 +18,5 @@ export type Item = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any 
     images?: any[]; 
     subcategory?: Subcategory;
+    discountedPrice?: number;
   };
