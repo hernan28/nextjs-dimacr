@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import MegaMenu from './Menu';
@@ -45,8 +46,8 @@ const Header = () => {
 
           {/* Logo */}
           <div className="flex items-center justify-center lg:justify-start flex-1 lg:flex-none">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              Dima
+            <Link href="/" aria-label="Dima - inicio">
+              <Image src="/Dima RGB 500.png" alt="Dima" width={120} height={36} priority />
             </Link>
           </div>
 

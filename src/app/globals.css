@@ -2,17 +2,9 @@
 @import "tw-animate-css";
 
 @layer base {
-  body, h3, h4, h5, h6, data, p {
-    font-family: var(--font-geist-sans);
-  }
-
-  h1, h2, a {
-    font-family: var(--font-geist-mono);
-    font-weight: 600;
-  }
-
-  code, pre {
-    font-family: var(--font-geist-mono);
+  body {
+    font-family: var(--font-jost);
+    font-weight: 300;
   }
 }
 
@@ -20,6 +12,8 @@
 @plugin "@tailwindcss/typography";
 
 @theme inline {
+  --font-sans: var(--font-jost);
+  --font-mono: var(--font-jost);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Phone, MessageCircle } from 'lucide-react'
 import { CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { PHONE_NUMBER, WHATSAPP_NUMBER } from '@/lib/contact'
 
 interface ItemDetailProps {
   item: {
@@ -20,6 +21,7 @@ interface ItemDetailProps {
       unidad?: string
     }
     price?: number
+    availabilityInquiry?: boolean
     subcategory?: {
       _id: string
       title: string
@@ -52,12 +54,12 @@ export default function ItemDetail({ item }: ItemDetailProps) {
 
   const handleWhatsAppContact = () => {
     const message = `Hola, estoy interesado en el producto: ${item.title}`
-    const whatsappUrl = `https://wa.me/+1234567890?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 
   const handlePhoneContact = () => {
-    window.open('tel:+1234567890', '_self')
+    window.open(`tel:${PHONE_NUMBER}`, '_self')
   }
 
   return (
@@ -152,21 +154,19 @@ export default function ItemDetail({ item }: ItemDetailProps) {
               </h1>
 
                 {/* Price */}
-                {item.price !== undefined && item.price !== null && item.price >= 1 ? (
+                {item.availabilityInquiry === true ? (
+                <p className="text-2xl sm:text-3xl lg:text-3xl pt-4 block text-red-500">Consultar disponibilidad</p>
+                ) : typeof item.price === 'number' && Number.isFinite(item.price) ? (
                 <p aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl pt-4 block">
                   {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs sm:text-sm text-gray-500">IVA incluido</span>
                 </p>
                 ) : (
-                <p className="text-2xl sm:text-3xl lg:text-3xl pt-4 block text-red-500">Consulte el precio</p>
+                <p className="text-2xl sm:text-3xl lg:text-3xl pt-4 block text-red-500">Consultar disponibilidad</p>
                 )}
             </div>
 
             {/* Contact Buttons */}
             <div className="space-y-3 sm:space-y-4">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                Consultar Disponibilidad
-              </h3>
-              
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button
                   onClick={handleWhatsAppContact}
