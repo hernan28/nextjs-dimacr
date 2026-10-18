@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Filter, X } from 'lucide-react'
 import CatalogFilters from './CatalogFilters'
 import ItemCard from './ItemCard'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Category, Subcategory, Item } from "../types";
 
 export default function CatalogWrapper({ categories, subcategories, items, initialSubcategory = 'unassigned' }: { 
@@ -18,6 +19,21 @@ export default function CatalogWrapper({ categories, subcategories, items, initi
       : items.filter(item => item.subcategory?._id === initialSubcategory)
   )
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [sortOrder, setSortOrder] = useState('default')
+
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    if (sortOrder === 'name-asc') return a.title.localeCompare(b.title, 'es', { sensitivity: 'base', numeric: true })
+    if (sortOrder === 'name-desc') return b.title.localeCompare(a.title, 'es', { sensitivity: 'base', numeric: true })
+    if (sortOrder === 'price-asc' || sortOrder === 'price-desc') {
+      const aHasPrice = !a.availabilityInquiry && typeof a.price === 'number' && Number.isFinite(a.price)
+      const bHasPrice = !b.availabilityInquiry && typeof b.price === 'number' && Number.isFinite(b.price)
+      if (!aHasPrice && !bHasPrice) return 0
+      if (!aHasPrice) return 1
+      if (!bHasPrice) return -1
+      return sortOrder === 'price-asc' ? a.price! - b.price! : b.price! - a.price!
+    }
+    return 0
+  })
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
@@ -70,14 +86,29 @@ export default function CatalogWrapper({ categories, subcategories, items, initi
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <h1 className="text-3xl sm:text-4xl font-semibold">Catálogo</h1>
+          <Select value={sortOrder} onValueChange={setSortOrder}>
+            <SelectTrigger aria-label="Ordenar productos por" className="rounded-full border-0 bg-red-500 text-white font-medium px-5 hover:bg-red-600 transition-colors motion-reduce:transition-none [&_svg:not([class*='text-'])]:text-white">
+              <SelectValue placeholder="Ordenar por" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="default">Ordenar por</SelectItem>
+              <SelectItem value="price-asc">Precio: menor a mayor</SelectItem>
+              <SelectItem value="price-desc">Precio: mayor a menor</SelectItem>
+              <SelectItem value="name-asc">Nombre: A–Z</SelectItem>
+              <SelectItem value="name-desc">Nombre: Z–A</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         {filteredItems.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             No se encontraron productos que coincidan con los filtros seleccionados.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {filteredItems.map((item: Item) => <ItemCard key={item._id} item={item} />)}
+            {sortedItems.map((item: Item) => <ItemCard key={item._id} item={item} />)}
           </div>
         )}
       </main>
