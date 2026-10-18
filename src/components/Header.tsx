@@ -35,7 +35,7 @@ const Header = () => {
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900"
+              className="header-control text-gray-600 focus:text-gray-900"
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -47,7 +47,7 @@ const Header = () => {
 
           {/* Logo */}
           <div className="flex items-center justify-center flex-1 lg:flex-none lg:order-2">
-            <Link href="/" aria-label="Dima - inicio">
+            <Link href="/" aria-label="Dima - inicio" className="header-control block">
               <Image src="/Dima RGB 500.png" alt="Dima" width={120} height={36} priority />
             </Link>
           </div>
@@ -56,7 +56,7 @@ const Header = () => {
           <nav className="hidden lg:flex items-center space-x-8 lg:order-1">
             <MegaMenu />
             {leftLinks.map(link => (
-              <Link key={link.href} href={link.href} className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
+              <Link key={link.href} href={link.href} className={`header-control text-gray-700 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
                 {link.label}
               </Link>
             ))}
@@ -66,7 +66,7 @@ const Header = () => {
           {/* Desktop Right Navigation */}
           <nav className="hidden lg:flex items-center space-x-6 lg:order-3 lg:justify-self-end">
             {rightLinks.map(link => (
-              <Link key={link.href} href={link.href} className={`text-gray-600 hover:text-gray-900 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
+              <Link key={link.href} href={link.href} className={`header-control text-gray-600 font-medium ${pathname === link.href ? 'text-red-500' : ''}`}>
                 {link.label}
               </Link>
             ))}
@@ -86,7 +86,7 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                  className="header-control block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
