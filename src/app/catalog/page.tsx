@@ -5,21 +5,25 @@ import type { Subcategory } from '../types'
 export default async function CatalogPage({
   searchParams,
 }: {
-  searchParams: Promise<{ subcategory?: string | string[] }>
+  searchParams: Promise<{ category?: string | string[]; subcategory?: string | string[] }>
 }) {
-  const { subcategory } = await searchParams
+  const { category, subcategory } = await searchParams
   const { categories, subcategories, items } = await fetchCatalogData()
 
+  const initialCategory = typeof category === 'string' && categories.some(
+    (cat: { _id: string }) => cat._id === category
+  ) ? category : 'unassigned'
   const initialSubcategory = typeof subcategory === 'string' && subcategories.some(
     (sub: Subcategory) => sub._id === subcategory
   ) ? subcategory : 'unassigned'
 
   return (
     <CatalogWrapper
-      key={initialSubcategory}
+      key={`${initialCategory}:${initialSubcategory}`}
       categories={categories}
       subcategories={subcategories}
       items={items}
+      initialCategory={initialCategory}
       initialSubcategory={initialSubcategory}
     />
   )

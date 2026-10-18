@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { client } from '@/sanity/client'
 import { urlFor } from '@/sanity/image'
 
@@ -37,11 +38,12 @@ export default async function MostSearched() {
           <p className="text-gray-600 max-w-xl text-sm sm:text-base">
             Ofrecemos gran variedad de equipos de fotografía en Costa Rica con envíos gratis en el GAM.
           </p>
-          <button
+          <Link
+            href="/catalog"
             className="mt-2 w-fit border border-red-500 text-red-500 hover:bg-red-50 rounded px-4 py-2 font-semibold transition text-sm sm:text-base"
           >
             VER TODOS
-          </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {categories.map((cat: Category, idx: number) => {
@@ -53,9 +55,11 @@ export default async function MostSearched() {
                 ? 'lg:col-span-2'
                 : ''
             return (
-              <div
+              <Link
+                href={`/catalog?category=${encodeURIComponent(cat._id)}`}
+                aria-label={`Ver productos de ${cat.title}`}
                 key={cat._id}
-                className={`group relative flex min-h-[180px] sm:min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-xl bg-white shadow transition hover:shadow-lg ${colSpan}`}
+                className={`group relative flex min-h-[180px] sm:min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-xl bg-white shadow transition hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-500 ${colSpan}`}
               >
                 {/* Image section */}
                 <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gray-200">
@@ -75,7 +79,7 @@ export default async function MostSearched() {
                     {cat.title}
                   </span>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
