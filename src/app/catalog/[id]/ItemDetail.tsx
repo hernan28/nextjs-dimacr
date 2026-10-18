@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, Phone, MessageCircle } from 'lucide-react'
 import { CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { PHONE_NUMBER, WHATSAPP_NUMBER } from '@/lib/contact'
+import { hasValidDiscount } from '@/lib/utils'
 
 interface ItemDetailProps {
   item: {
@@ -21,6 +22,7 @@ interface ItemDetailProps {
       unidad?: string
     }
     price?: number
+    discountedPrice?: number
     availabilityInquiry?: boolean
     subcategory?: {
       _id: string
@@ -35,6 +37,7 @@ interface ItemDetailProps {
 
 export default function ItemDetail({ item }: ItemDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const isDiscounted = hasValidDiscount(item)
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
@@ -154,7 +157,16 @@ export default function ItemDetail({ item }: ItemDetailProps) {
               </h1>
 
                 {/* Price */}
-                {item.availabilityInquiry === true ? (
+                {isDiscounted ? (
+                <div aria-label="Precio con descuento" className="pt-4">
+                  <p className="text-base sm:text-lg text-gray-500 line-through">
+                    {item.price.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </p>
+                  <p className="text-2xl sm:text-3xl lg:text-3xl text-red-600">
+                    {item.discountedPrice.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs sm:text-sm text-gray-500">IVA incluido</span>
+                  </p>
+                </div>
+                ) : item.availabilityInquiry === true ? (
                 <p className="text-2xl sm:text-3xl lg:text-3xl pt-4 block text-red-500">Consultar disponibilidad</p>
                 ) : typeof item.price === 'number' && Number.isFinite(item.price) ? (
                 <p aria-label="Precio del producto" className="text-2xl sm:text-3xl lg:text-3xl pt-4 block">
