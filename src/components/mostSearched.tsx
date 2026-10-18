@@ -30,7 +30,7 @@ export default async function MostSearched() {
     <section className="bg-gray-50 py-8 sm:py-12 px-4 sm:px-8 rounded-xl mx-4 sm:mx-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 sm:mb-8 flex flex-col gap-2">
-          <span className="text-gray-500 text-sm font-mono">A un click</span>
+          <span className="text-gray-500 text-sm">A un click</span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
             Más buscado por categoría
           </h2>

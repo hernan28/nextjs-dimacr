@@ -35,17 +35,17 @@ const imageUrl = urlFor(item.images[0]).url()
               {item.description}
             </p>
           )}
-          {item.price !== undefined && item.price !== null && item.price >= 1 ? (
+          {item.availabilityInquiry === true ? (
+            <p className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">Consultar disponibilidad</p>
+          ) : typeof item.price === 'number' && Number.isFinite(item.price) ? (
                 <p aria-label="Precio del producto" className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">
                   {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 ) : (
-                <p className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">Consulte el precio</p>
+                <p className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">Consultar disponibilidad</p>
           )}
         </div>
       </Card>
     </Link>
   )
 } 
-
-
