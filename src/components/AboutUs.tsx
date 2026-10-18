@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { client } from "@/sanity/client"
 import aboutUsQuery from "@/sanity/aboutUsQuery"
 import { urlFor } from "@/sanity/image"
@@ -29,16 +30,16 @@ const AboutUs = async () => {
         </div>
 
         {/* DERECHA: texto y botón */}
-        <div className="bg-[#B89F6B] p-4 sm:p-6 pt-20 sm:pt-30 rounded-xl text-white h-[300px] sm:h-[400px] lg:h-[500px] flex flex-col gap-y-2">
+        <div className="bg-[#939598] p-4 sm:p-6 pt-20 sm:pt-30 rounded-xl text-[#231F20] h-[300px] sm:h-[400px] lg:h-[500px] flex flex-col gap-y-2">
           <p className="text-xs sm:text-sm">{data.trajectoryLabel}</p>
 
-          <h3 className="text-xl sm:text-2xl lg:text-[32px] leading-tight lg:leading-[36px] text-black font-medium">
+          <h3 className="text-xl sm:text-2xl lg:text-[32px] leading-tight lg:leading-[36px] font-medium">
             {data.description}
           </h3>
 
-          <button className="mt-4 sm:mt-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 sm:py-3 px-8 sm:px-20 rounded-full w-auto text-xs sm:text-sm tracking-wide self-start transition-colors">
+          <Link href="/conocenos" className="mt-4 sm:mt-6 bg-[#231F20] hover:bg-black text-white font-bold py-2 sm:py-3 px-8 sm:px-20 rounded-full w-auto text-xs sm:text-sm tracking-wide self-start transition-colors motion-reduce:transition-none">
             {data.buttonText}
-          </button>
+          </Link>
         </div>
       </div>
     </section>

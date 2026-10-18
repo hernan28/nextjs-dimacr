@@ -34,7 +34,7 @@ export default function SearchOverlay({ mobile = false }: { mobile?: boolean }) 
           dialogRef.current?.showModal()
           dialogRef.current?.querySelector('input')?.focus()
         }}
-        className="flex items-center gap-1 text-gray-700 hover:text-gray-900"
+        className="header-control flex items-center gap-1 text-gray-700"
       >
         {!mobile && <span className="font-medium">Buscar</span>}
         <Search className={mobile ? 'h-5 w-5' : 'h-4 w-4'} />

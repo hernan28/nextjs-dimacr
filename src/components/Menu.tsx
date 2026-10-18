@@ -45,7 +45,7 @@ export default function MegaMenu() {
         <Link
           href="/catalog"
           onClick={() => setIsOpen(false)}
-          className={`text-gray-700 hover:text-gray-900 font-medium ${pathname === '/catalog' ? 'text-red-500' : ''}`}
+          className={`header-control inline-block text-gray-700 font-medium ${pathname === '/catalog' ? 'text-red-500' : ''}`}
         >
           Catálogo
         </Link>
@@ -55,9 +55,9 @@ export default function MegaMenu() {
           aria-label="Desplegar categorías del catálogo"
           aria-expanded={isOpen}
           aria-controls="catalog-dropdown"
-          className="p-1 text-gray-700 hover:text-gray-900 cursor-pointer"
+          className="header-control p-1 text-gray-700 cursor-pointer"
         >
-          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`h-4 w-4 transition-transform duration-200 motion-reduce:transition-none ${isOpen ? 'rotate-180' : ''}`} />
         </button>
       </div>
 
@@ -76,7 +76,7 @@ export default function MegaMenu() {
                 <li key={item._id}>
                   <Link 
                     href={`/catalog?subcategory=${encodeURIComponent(item._id)}`}
-                    className="hover:underline text-gray-700 hover:text-black text-sm block py-1"
+                    className="header-control hover:underline text-gray-700 text-sm block py-1"
                     onClick={() => setIsOpen(false)}
                   >
                     {item.title}
