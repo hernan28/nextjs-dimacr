@@ -9,17 +9,19 @@ export default function CatalogFilters({
   categories = [], 
   subcategories = [], 
   items = [],
+  initialCategory = 'unassigned',
   initialSubcategory = 'unassigned',
   onFilteredItemsChange 
 }: { 
   categories: Category[]; 
   subcategories: Subcategory[]; 
   items: Item[];
+  initialCategory?: string;
   initialSubcategory?: string;
   onFilteredItemsChange: (filteredItems: Item[]) => void;
 }) {
   const [search, setSearch] = useState('')
-  const [category, setCategory] = useState('unassigned')
+  const [category, setCategory] = useState(initialCategory)
   const [subcategory, setSubcategory] = useState(initialSubcategory)
 
   // Filter subcategories based on selected category
