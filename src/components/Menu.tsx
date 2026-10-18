@@ -39,7 +39,7 @@ export default function MegaMenu() {
   }, []);
 
   return (
-    <div className="relative group">
+    <div className="group">
       {/* Trigger */}
       <div className="flex items-center gap-1">
         <Link
@@ -63,9 +63,9 @@ export default function MegaMenu() {
 
       {/* Dropdown */}
       <div id="catalog-dropdown" className={`
-        absolute z-50 left-1/2 top-full mt-2 bg-white shadow-lg border border-gray-200 rounded-lg transition-all duration-300
+        absolute z-50 left-0 top-full bg-white shadow-lg border border-gray-200 rounded-b-2xl transition-all duration-300 motion-reduce:transition-none
         ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
-        w-screen max-w-5xl -translate-x-1/2 lg:grid lg:grid-cols-2 xl:grid-cols-4 gap-6 p-6
+        w-full max-h-[calc(100dvh-5rem)] overflow-y-auto lg:grid lg:grid-cols-4 xl:grid-cols-6 gap-x-6 gap-y-8 p-6
       `}>
         {status && <p role="status" className="col-span-full text-sm text-gray-500">{status}</p>}
         {menuItems.map((section) => (
@@ -76,7 +76,7 @@ export default function MegaMenu() {
                 <li key={item._id}>
                   <Link 
                     href={`/catalog?subcategory=${encodeURIComponent(item._id)}`}
-                    className="hover:underline text-gray-700 hover:text-black text-sm lg:text-base block py-1"
+                    className="hover:underline text-gray-700 hover:text-black text-sm block py-1"
                     onClick={() => setIsOpen(false)}
                   >
                     {item.title}

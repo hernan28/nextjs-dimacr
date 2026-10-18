@@ -14,6 +14,7 @@ export type Item = {
     title: string;
     description?: string;
     price?: number;
+    availabilityInquiry?: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any 
     images?: any[]; 
     subcategory?: Subcategory;

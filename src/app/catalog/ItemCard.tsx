@@ -6,12 +6,12 @@ import Link from "next/link"
 // TODO Use item type from sanity?
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ItemCard({ item }: { item: any }) {
-const imageUrl = urlFor(item.images[0]).url()
+const imageUrl = item.images?.[0] ? urlFor(item.images[0]).url() : null
   return (
     <Link href={`/catalog/${item._id}`}>
       <Card className="p-3 sm:p-4 hover:shadow-lg focus-within:border-red-500 transition-shadow duration-200 cursor-pointer h-full flex flex-col">
         <div className="h-40 relative flex-shrink-0">
-          {item.images?.length > 0 ? (
+          {imageUrl ? (
               // TODO: Use carrousel for images?
             <Image
               src={imageUrl} 
