@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Filter, X } from 'lucide-react'
 import CatalogFilters from './CatalogFilters'
 import ItemCard from './ItemCard'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Category, Subcategory, Item } from "../types";
+import { expandCatalogVariants } from '@/lib/utils'
 
 export default function CatalogWrapper({
   categories,
@@ -20,9 +21,10 @@ export default function CatalogWrapper({
   initialCategory?: string;
   initialSubcategory?: string;
 }) {
+  const catalogItems = useMemo(() => expandCatalogVariants(items), [items])
   const [filteredItems, setFilteredItems] = useState(() =>
-    items.filter(item =>
-      (initialCategory === 'unassigned' || item.subcategory?.category?._id === initialCategory) &&
+    catalogItems.filter(item =>
+      (initialCategory === 'unassigned' || item.category?._id === initialCategory || item.subcategory?.category?._id === initialCategory) &&
       (initialSubcategory === 'unassigned' || item.subcategory?._id === initialSubcategory)
     )
   )
@@ -30,15 +32,19 @@ export default function CatalogWrapper({
   const [sortOrder, setSortOrder] = useState('default')
 
   const sortedItems = [...filteredItems].sort((a, b) => {
-    if (sortOrder === 'name-asc') return a.title.localeCompare(b.title, 'es', { sensitivity: 'base', numeric: true })
-    if (sortOrder === 'name-desc') return b.title.localeCompare(a.title, 'es', { sensitivity: 'base', numeric: true })
+    const aName = `${a.brand ?? ''} ${a.title}`.trim()
+    const bName = `${b.brand ?? ''} ${b.title}`.trim()
+    if (sortOrder === 'name-asc') return aName.localeCompare(bName, 'es', { sensitivity: 'base', numeric: true })
+    if (sortOrder === 'name-desc') return bName.localeCompare(aName, 'es', { sensitivity: 'base', numeric: true })
     if (sortOrder === 'price-asc' || sortOrder === 'price-desc') {
-      const aHasPrice = !a.availabilityInquiry && typeof a.price === 'number' && Number.isFinite(a.price)
-      const bHasPrice = !b.availabilityInquiry && typeof b.price === 'number' && Number.isFinite(b.price)
+      const aPrice = a.catalogVariant?.price ?? a.price
+      const bPrice = b.catalogVariant?.price ?? b.price
+      const aHasPrice = !a.availabilityInquiry && typeof aPrice === 'number' && Number.isFinite(aPrice)
+      const bHasPrice = !b.availabilityInquiry && typeof bPrice === 'number' && Number.isFinite(bPrice)
       if (!aHasPrice && !bHasPrice) return 0
       if (!aHasPrice) return 1
       if (!bHasPrice) return -1
-      return sortOrder === 'price-asc' ? a.price! - b.price! : b.price! - a.price!
+      return sortOrder === 'price-asc' ? aPrice! - bPrice! : bPrice! - aPrice!
     }
     return 0
   })
@@ -72,7 +78,7 @@ export default function CatalogWrapper({
           <CatalogFilters 
             categories={categories} 
             subcategories={subcategories} 
-            items={items}
+            items={catalogItems}
             initialCategory={initialCategory}
             initialSubcategory={initialSubcategory}
             onFilteredItemsChange={setFilteredItems}
@@ -87,7 +93,7 @@ export default function CatalogWrapper({
           <CatalogFilters 
             categories={categories} 
             subcategories={subcategories} 
-            items={items}
+            items={catalogItems}
             initialCategory={initialCategory}
             initialSubcategory={initialSubcategory}
             onFilteredItemsChange={setFilteredItems}
@@ -118,7 +124,7 @@ export default function CatalogWrapper({
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {sortedItems.map((item: Item) => <ItemCard key={item._id} item={item} />)}
+            {sortedItems.map((item: Item) => <ItemCard key={item.catalogKey ?? item._id} item={item} />)}
           </div>
         )}
       </main>

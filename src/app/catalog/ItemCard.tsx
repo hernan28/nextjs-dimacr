@@ -2,13 +2,20 @@ import { Card } from "@/components/ui/card"
 import { urlFor } from "@/sanity/image"
 import Image from "next/image"
 import Link from "next/link"
-import { hasValidDiscount } from "@/lib/utils"
+import { getItemDisplayName, hasValidDiscount } from "@/lib/utils"
 import type { Item } from "../types"
 export default function ItemCard({ item }: { item: Item }) {
-  const imageUrl = item.images?.[0] ? urlFor(item.images[0]).url() : undefined
-  const isDiscounted = hasValidDiscount(item)
+  const imageUrl = item.catalogVariant?.image?.asset.url
+    ?? (item.images?.[0] ? urlFor(item.images[0]).url() : undefined)
+  const isDiscounted = !item.catalogVariant && hasValidDiscount(item)
+  const displayName = getItemDisplayName(item)
+  const variantLabel = item.catalogVariant?.color ?? item.catalogVariant?.mount
+  const href = item.catalogVariant
+    ? `/catalog/${item._id}?variant=${encodeURIComponent(item.catalogVariant._key)}`
+    : `/catalog/${item._id}`
+  const price = item.catalogVariant?.price ?? item.price
   return (
-    <Link href={`/catalog/${item._id}`}>
+    <Link href={href}>
       <Card className="p-3 sm:p-4 hover:shadow-lg focus-within:border-red-500 transition-shadow duration-200 cursor-pointer h-full flex flex-col">
         <div className="h-40 relative flex-shrink-0">
           {imageUrl ? (
@@ -17,7 +24,7 @@ export default function ItemCard({ item }: { item: Item }) {
               src={imageUrl} 
               fill
               quality={1}
-              alt={item.title} 
+              alt={displayName}
               className="object-contain rounded aspect-square"
             />
           ) : (
@@ -25,7 +32,9 @@ export default function ItemCard({ item }: { item: Item }) {
           )}
         </div>
         <div className="flex-1 flex flex-col">
-          <h3 aria-label="product title" className="font-semibold text-lg sm:text-lg line-clamp-2">{item.title}</h3>
+          <h3 aria-label="product title" className="font-semibold text-lg sm:text-lg line-clamp-2">
+            {variantLabel ? `${displayName} - ${variantLabel}` : displayName}
+          </h3>
           {item.description && (
             <p aria-label="product description" className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2 overflow-hidden flex-1" style={{ 
               display: '-webkit-box', 
@@ -46,9 +55,10 @@ export default function ItemCard({ item }: { item: Item }) {
             </div>
           ) : item.availabilityInquiry === true ? (
             <p className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">Consultar disponibilidad</p>
-          ) : typeof item.price === 'number' && Number.isFinite(item.price) ? (
+          ) : typeof price === 'number' && Number.isFinite(price) ? (
                 <p aria-label="Precio del producto" className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">
-                  {Number(item.price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {item.variantType === 'background' && 'Desde '}
+                  {Number(price).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 ) : (
                 <p className="text-base sm:text-lg font-semibold mt-2 sm:mt-3">Consultar disponibilidad</p>

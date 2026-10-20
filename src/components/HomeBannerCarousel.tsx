@@ -3,12 +3,17 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import type { CSSProperties } from 'react';
 
 type BannerImage = {
   src: string;
+  width: number;
+  height: number;
   mobileSrc?: string;
+  mobileWidth: number;
+  mobileHeight: number;
   alt: string;
+  href?: string;
 };
 
 type HomeBannerCarouselProps = {
@@ -28,60 +33,73 @@ const HomeBannerCarousel = ({ images }: HomeBannerCarouselProps) => {
     return () => window.clearInterval(interval);
   }, [images.length]);
 
+  const activeImage = images[activeIndex];
+  const referenceImage = images[2] ?? images[0];
+
+  if (!activeImage || !referenceImage) return null;
+
   return (
-    <section
-      aria-label="Banner principal"
-      className="relative h-[400px] overflow-hidden rounded-3xl text-white sm:h-[500px] lg:h-[600px]"
-    >
-      {images.map((image, index) => (
-        <div
-          key={`${image.src}-${index}`}
-          aria-hidden={index !== activeIndex}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === activeIndex ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <picture className="relative block h-full w-full">
-            {image.mobileSrc && (
-              <source media="(max-width: 639px)" srcSet={image.mobileSrc} />
+    <div className="w-full">
+      <section
+        aria-label="Banner principal"
+        style={{
+          '--banner-mobile-ratio': `${referenceImage.mobileWidth} / ${referenceImage.mobileHeight}`,
+          '--banner-desktop-ratio': `${referenceImage.width} / ${referenceImage.height}`,
+        } as CSSProperties}
+        className="home-hero-banner-frame relative min-h-[1px] overflow-hidden rounded-3xl bg-stone-300"
+      >
+        {images.map((image, index) => (
+          <div
+            key={`${image.src}-${index}`}
+            aria-hidden={index !== activeIndex}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === activeIndex
+                ? 'z-10 opacity-100'
+                : 'pointer-events-none opacity-0'
+            }`}
+          >
+            <picture className="absolute inset-0">
+              {image.mobileSrc && (
+                <source media="(max-width: 639px)" srcSet={image.mobileSrc} />
+              )}
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="(max-width: 1600px) 100vw, 1600px"
+                unoptimized
+                priority={index === 0}
+                className="object-contain"
+              />
+            </picture>
+            {image.href && (
+              <Link
+                href={image.href}
+                tabIndex={index === activeIndex ? 0 : -1}
+                aria-label={`Abrir ${image.alt}`}
+                className="absolute inset-0 z-10 focus-visible:outline focus-visible:outline-4 focus-visible:outline-inset focus-visible:outline-white"
+              />
             )}
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              sizes="100vw"
-              priority={index === 0}
-              className="object-cover"
-            />
-          </picture>
-        </div>
-      ))}
-      <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
-      <div className="absolute left-0 top-1/2 z-10 flex max-w-2xl -translate-y-1/2 flex-col items-start justify-center gap-4 p-4 sm:p-8 lg:p-16">
-        <h1 className="text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-5xl">
-          La tienda #1 de equipo fotográfico en Costa Rica
-        </h1>
-        <Button asChild variant="default" size="lg">
-          <Link href="/catalog">Ver Catálogo</Link>
-        </Button>
-      </div>
-      {images.length > 1 && (
-        <div className="absolute bottom-5 right-5 z-10 flex gap-2">
-          {images.map((image, index) => (
-            <button
-              key={`${image.src}-indicator-${index}`}
-              type="button"
-              aria-label={`Mostrar imagen ${index + 1} del banner`}
-              aria-current={index === activeIndex ? 'true' : undefined}
-              onClick={() => setActiveIndex(index)}
-              className={`h-3 w-3 rounded-full border border-white ${
-                index === activeIndex ? 'bg-white' : 'bg-black/40'
-              }`}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+          </div>
+        ))}
+        {images.length > 1 && (
+          <div className="absolute bottom-5 right-5 z-10 flex gap-2">
+            {images.map((image, index) => (
+              <button
+                key={`${image.src}-indicator-${index}`}
+                type="button"
+                aria-label={`Mostrar imagen ${index + 1} del banner`}
+                aria-current={index === activeIndex ? 'true' : undefined}
+                onClick={() => setActiveIndex(index)}
+                className={`h-3 w-3 rounded-full border border-white ${
+                  index === activeIndex ? 'bg-white' : 'bg-black/40'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
   );
 };
 

@@ -53,13 +53,13 @@ function wordScore(query: string, titleWords: string[]) {
   return bestScore
 }
 
-export function rankSearchItems<T extends { title: string }>(items: T[], query: string): T[] {
+export function rankSearchItems<T extends { title: string; brand?: string }>(items: T[], query: string): T[] {
   const normalizedQuery = normalizeSearch(query)
   if (!normalizedQuery) return []
 
   const words = normalizedQuery.split(' ')
   return items.map(item => {
-    const title = normalizeSearch(item.title)
+    const title = normalizeSearch(`${item.brand ?? ''} ${item.title}`)
     const scores = words.map(word => wordScore(word, title.split(' ')))
     const score = title === normalizedQuery ? 100 : title.includes(normalizedQuery) ? 90 : scores.every(score => score > 0) ? scores.reduce((sum, score) => sum + score, 0) / words.length : 0
     return { item, score }

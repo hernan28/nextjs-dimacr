@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 const navLinks = [
   { href: '/catalog', label: 'Catálogo', position: 'left' },
   { href: '/ofertas', label: 'Ofertas', position: 'left' },
-  { href: '/conocenos', label: 'Conócenos', position: 'right' },
+  { href: '/conocenos', label: 'Conózcanos', position: 'right' },
   { href: '/contacto', label: 'Contacto', position: 'right' },
 ];
 
@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-sm fixed top-0 left-0 w-full z-50">
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-[1664px] px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Mobile menu button */}
           <div className="flex items-center lg:hidden">

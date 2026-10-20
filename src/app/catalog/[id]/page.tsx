@@ -6,15 +6,20 @@ interface ItemPageProps {
   params: Promise<{
     id: string
   }>
+  searchParams: Promise<{
+    variant?: string | string[]
+  }>
 }
 
-export default async function ItemPage({ params }: ItemPageProps) {
-  const { id } = await params
+export default async function ItemPage({ params, searchParams }: ItemPageProps) {
+  const [{ id }, query] = await Promise.all([params, searchParams])
   const item = await fetchItemById(id)
   
   if (!item) {
     notFound()
   }
 
-  return <ItemDetail item={item} />
-} 
+  const initialVariantKey = typeof query.variant === 'string' ? query.variant : undefined
+
+  return <ItemDetail item={item} initialVariantKey={initialVariantKey} />
+}

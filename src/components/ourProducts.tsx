@@ -61,8 +61,8 @@ export default function OurProducts() {
   }, [subcategories, emblaApi])
 
   return (
-    <section className="py-8 sm:py-16 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full py-8 sm:py-16">
+      <div>
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between mb-6 sm:mb-8 gap-4 items-end">
           <div>

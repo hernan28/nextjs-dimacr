@@ -1,6 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+.home-banner-frame {
+  aspect-ratio: var(--banner-mobile-ratio, 1600 / 600);
+}
+
+.home-hero-banner-frame {
+  aspect-ratio: var(--banner-mobile-ratio, 950 / 200);
+}
+
+@media (min-width: 640px) {
+  .home-banner-frame {
+    aspect-ratio: var(--banner-desktop-ratio, 1600 / 600);
+  }
+
+  .home-hero-banner-frame {
+    aspect-ratio: var(--banner-desktop-ratio, 950 / 200);
+  }
+}
+
 .header-control {
   transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
 }

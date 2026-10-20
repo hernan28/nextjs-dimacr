@@ -28,9 +28,8 @@ export default function MegaMenu() {
       }`
     )
       .then(data => {
-        const sections = data.filter(section => section.items.length > 0);
-        setMenuItems(sections);
-        setStatus(sections.length ? '' : 'No hay subcategorías disponibles.');
+        setMenuItems(data);
+        setStatus(data.length ? '' : 'No hay categorías disponibles.');
       })
       .catch(error => {
         console.error('No se pudieron cargar las categorías del menú:', error);
@@ -70,7 +69,15 @@ export default function MegaMenu() {
         {status && <p role="status" className="col-span-full text-sm text-gray-500">{status}</p>}
         {menuItems.map((section) => (
           <div key={section._id} className="mb-6 lg:mb-0">
-            <h3 className="font-semibold mb-3 text-black text-sm lg:text-base">{section.title}</h3>
+            <h3 className="mb-3 text-sm font-semibold text-black lg:text-base">
+              <Link
+                href={`/catalog?category=${encodeURIComponent(section._id)}`}
+                className="header-control hover:underline"
+                onClick={() => setIsOpen(false)}
+              >
+                {section.title}
+              </Link>
+            </h3>
             <ul className="space-y-2">
               {section.items.map((item) => (
                 <li key={item._id}>

@@ -98,7 +98,11 @@ export default async function ConocenosPage() {
                     {sectionPartners.map((partner) => (
                       <a
                         key={partner._id}
-                        href={partner.website}
+                        href={
+                          /^https?:\/\//i.test(partner.website)
+                            ? partner.website
+                            : `https://${partner.website}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group flex min-h-48 flex-col rounded-2xl border border-gray-200 bg-gray-50 p-5 transition hover:-translate-y-1 hover:border-red-200 hover:bg-white hover:shadow-lg"
