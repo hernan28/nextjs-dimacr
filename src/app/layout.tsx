@@ -31,12 +31,12 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${jost.variable} antialiased bg-stone-200`}>
         <Header />
-        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20 sm:pt-24">
+        <main className="mx-auto w-full max-w-[1664px] px-4 py-8 pt-20 sm:px-6 sm:pt-24 lg:px-8">
           {children}
         </main>
 
-        <footer className="bg-white pt-12 sm:pt-16 pb-8 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto">
+        <footer className="bg-white pt-12 pb-8 sm:pt-16">
+        <div className="mx-auto w-full max-w-[1664px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="sm:col-span-2">
                 <Image src="/Dima RGB 500.png" alt="Dima" width={100} height={30} />
@@ -53,9 +53,9 @@ export default function RootLayout({
                 <p className="text-sm mt-2">info@dima.cr</p>
               </div>
               <div>
-                <a href="#" className="block text-sm font-semibold hover:text-red-500">Terminos del serivicio</a>
-                <a href="#" className="block text-sm font-semibold mt-4 hover:text-red-500">Política de devoluciones y Reintegros</a>
-                <a href="#" className="block text-sm font-semibold mt-4 hover:text-red-500">Política de envío</a>
+                <a href="/terminos-del-servicio" className="block text-sm font-semibold hover:text-red-500">Términos del servicio</a>
+                <a href="/politica-de-devoluciones" className="block text-sm font-semibold mt-4 hover:text-red-500">Política de devoluciones y reintegros</a>
+                <a href="/politica-de-envio" className="block text-sm font-semibold mt-4 hover:text-red-500">Política de envío</a>
               </div>
           </div>
           <div className="border-t border-gray-200 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500 gap-4">

@@ -4,6 +4,7 @@ const aboutUsQuery = `
     aboutTitle,
     trajectoryLabel,
     description,
+    mapsUrl,
     buttonText,
     image {
       asset->{

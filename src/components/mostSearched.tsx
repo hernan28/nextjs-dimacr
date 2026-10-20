@@ -28,8 +28,8 @@ export default async function MostSearched() {
   const categories = await client.fetch(mostSearchedCategoriesQuery)
 
   return (
-    <section className="bg-gray-50 py-8 sm:py-12 px-4 sm:px-8 rounded-xl mx-4 sm:mx-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full rounded-xl bg-gray-50 px-4 py-8 sm:px-8 sm:py-12">
+      <div className="mx-auto max-w-7xl">
         <div className="mb-6 sm:mb-8 flex flex-col gap-2">
           <span className="text-gray-500 text-sm">A un click</span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
@@ -42,7 +42,7 @@ export default async function MostSearched() {
             href="/catalog"
             className="mt-2 w-fit border border-red-500 text-red-500 hover:bg-red-50 rounded px-4 py-2 font-semibold transition text-sm sm:text-base"
           >
-            VER TODOS
+            VER TODO
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -59,10 +59,9 @@ export default async function MostSearched() {
                 href={`/catalog?category=${encodeURIComponent(cat._id)}`}
                 aria-label={`Ver productos de ${cat.title}`}
                 key={cat._id}
-                className={`group relative flex min-h-[180px] sm:min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-xl bg-white shadow transition hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-500 ${colSpan}`}
+                className={`group flex min-h-[180px] w-full flex-col overflow-hidden rounded-xl bg-white shadow transition hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-500 sm:min-h-[220px] ${colSpan}`}
               >
-                {/* Image section */}
-                <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gray-200">
+                <div className="relative flex min-h-[180px] w-full flex-1 items-center justify-center bg-white sm:min-h-[220px]">
                   {cat.image ? (
                     <Image
                       src={urlFor(cat.image).width(400).height(400).url()}
@@ -74,8 +73,8 @@ export default async function MostSearched() {
                     <span className="text-lg sm:text-2xl text-gray-400">{cat.title}</span>
                   )}
                 </div>
-                <div className="relative z-10 bg-gradient-to-t from-black/70 to-transparent p-3 sm:p-4 flex items-center justify-between">
-                  <span className="drop-shadow text-base sm:text-lg font-semibold text-white">
+                <div className="flex min-h-12 items-center px-3 py-3 sm:px-4">
+                  <span className="text-base font-semibold text-[#808080] sm:text-lg">
                     {cat.title}
                   </span>
                 </div>
